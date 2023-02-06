@@ -12,7 +12,7 @@ public class HeaderSeparator {
 
     private HeaderSeparator(){}
 
-    public Long getIdFromAuthorization(String authorization){
+    public Long getIdFromAuthentication(String authorization){
         return Long.parseLong(authorization.split(" ")[1]);
     }
 
