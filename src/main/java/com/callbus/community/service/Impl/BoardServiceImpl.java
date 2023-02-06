@@ -1,6 +1,7 @@
 package com.callbus.community.service.Impl;
 
 import com.callbus.community.controller.dto.request.BoardSaveReqDto;
+import com.callbus.community.controller.dto.request.MemberReqDto;
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
@@ -25,13 +26,11 @@ public class BoardServiceImpl implements BoardService {
 
     // 글 저장
     @Transactional(rollbackFor = RuntimeException.class)
-    public BoardSaveRespDto saveBoard(BoardSaveReqDto dto, String authentication){
+    public BoardSaveRespDto saveBoard(BoardSaveReqDto dto, MemberReqDto memberReqDto){
 
         Board board = dto.toEntity();
 
-        Long memberId = HeaderSeparator.getInstance().getIdFromAuthentication(authentication);
-
-        Optional<Member> member = Optional.of(memberRepository.findByMemberId(memberId)
+        Optional<Member> member = Optional.of(memberRepository.findByMemberId(memberReqDto.getMemberId())
                 .orElseThrow(()->new RuntimeException("해당 회원의 정보를 찾을 수 없습니다.")));
 
         board.addMember(member.get());

@@ -1,6 +1,7 @@
 package com.callbus.community.service;
 
 import com.callbus.community.controller.dto.request.BoardSaveReqDto;
+import com.callbus.community.controller.dto.request.MemberReqDto;
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
@@ -47,6 +48,10 @@ public class BoardServiceTest {
                 .accountType(AccountType.REALTOR)
                 .status(STATUS.Y)
                 .build());
+        MemberReqDto memberReqDto = MemberReqDto.builder()
+                .memberId("1")
+                .accountType("Realtor")
+                .build();
         Board board = boardSaveReqDto.toEntity();
         board.addMember(member.get());
 
@@ -54,7 +59,7 @@ public class BoardServiceTest {
         when(memberRepository.findByMemberId(any())).thenReturn(member);
         when(boardRepository.save(any())).thenReturn(board);
 
-        BoardSaveRespDto boardSaveRespDto = boardService.saveBoard(boardSaveReqDto, authentication);
+        BoardSaveRespDto boardSaveRespDto = boardService.saveBoard(boardSaveReqDto, memberReqDto);
 
         assertThat(boardSaveRespDto.getTitle()).isEqualTo("글 작성 서비스 단 테스트 제목");
         assertThat(boardSaveRespDto.getContent()).isEqualTo("글 작성 서비스 단 테스트 내용");
