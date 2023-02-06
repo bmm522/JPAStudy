@@ -1,11 +1,10 @@
-package com.callbus.community.util;
+package com.callbus.community.common;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 
 import static org.assertj.core.api.Assertions.*;
-import static com.callbus.community.util.HeaderSeparator.getInstance;
+
 public class HeaderSeparatorTest {
 
 

@@ -1,6 +1,7 @@
 package com.callbus.community.domain;
 
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
+import com.callbus.community.domain.util.STATUS;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +43,9 @@ public class Board {
     @UpdateTimestamp
     private Timestamp updateDate;
 
+    private Timestamp deleteDate;
+
+    private STATUS status;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberId")
     private Member member;
@@ -65,7 +69,8 @@ public class Board {
         this.content = content;
         this.hit = hit;
         this.createDate = createDate;
-        this.updateDate = updateDate;
+        this.updateDate = null;
+        this.deleteDate = null;
     }
 
     public void addMember(Member member){

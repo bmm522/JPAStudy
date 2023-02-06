@@ -1,6 +1,4 @@
-package com.callbus.community.util;
-
-import java.util.Arrays;
+package com.callbus.community.common;
 
 public class HeaderSeparator {
 

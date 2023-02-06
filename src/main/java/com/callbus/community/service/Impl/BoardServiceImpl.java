@@ -7,7 +7,7 @@ import com.callbus.community.domain.Member;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.callbus.community.service.BoardService;
-import com.callbus.community.util.HeaderSeparator;
+import com.callbus.community.common.HeaderSeparator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
