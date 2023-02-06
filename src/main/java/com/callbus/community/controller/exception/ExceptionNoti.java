@@ -1,0 +1,16 @@
+package com.callbus.community.controller.exception;
+
+import com.callbus.community.controller.dto.response.CommonRespDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class ExceptionNoti {
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> apiException(RuntimeException e){
+        return new ResponseEntity<>(CommonRespDto.builder().code(-1).msg(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
+    }
+}
