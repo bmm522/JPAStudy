@@ -1,9 +1,12 @@
 package com.callbus.community.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -14,11 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
 public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long boardId;
 
     @Column(nullable = false)
     private String title;
@@ -26,8 +30,9 @@ public class Board {
     @Column(nullable = false)
     private String content;
 
-    @ColumnDefault("0")
-    private Long hit;
+    @ColumnDefault(value = "0")
+    @Column(nullable = false)
+    private Integer hit = 0;
 
 
     @CreationTimestamp
@@ -36,15 +41,20 @@ public class Board {
     @UpdateTimestamp
     private Timestamp updateDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="memberId")
     private Member member;
 
-    @OneToMany
+    @OneToMany(mappedBy = "board")
     private List<Heart> heart;
 
     @OneToMany(mappedBy = "board")
     private List<Reply> reply;
 
-
+    @Builder
+    public Board(String title, String content , Member member){
+        this.title = title;
+        this.content = content;
+        this.member = member;
+    }
 }
