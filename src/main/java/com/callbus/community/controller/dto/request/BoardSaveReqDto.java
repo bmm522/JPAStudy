@@ -1,6 +1,7 @@
 package com.callbus.community.controller.dto.request;
 
 import com.callbus.community.domain.Board;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class BoardSaveRespDto {
+public class BoardSaveReqDto {
 
     @Size(min = 1, max = 50)
     @NotBlank
@@ -25,6 +26,12 @@ public class BoardSaveRespDto {
                 .content(content)
                 .build();
 
+    }
+
+    @Builder
+    public BoardSaveReqDto(String title, String content){
+        this.title = title;
+        this.content = content;
     }
 
 }

@@ -24,7 +24,7 @@ public class BoardRepositoryTest {
         String title = "글 작성 제목 테스트";
         String content = "글 작성 내용 테스트";
         Member member = Member.builder()
-                .id(1)
+                .id(1L)
                 .nickname("김지인")
                 .accountType(AccountType.REALTOR)
                 .status(STATUS.Y)
@@ -44,7 +44,7 @@ public class BoardRepositoryTest {
         assertThat(checkData.getContent()).isEqualTo("글 작성 내용 테스트");
         assertThat(checkData.getHit()).isEqualTo(0);
         assertThat(checkData.getMember().getNickname()).isEqualTo("김지인");
-        assertThat(checkData.getMember().getAccountType().getAccountType()).isEqualTo("REALTOR");
+        assertThat(checkData.getMember().getAccountType().getAccountType()).isEqualTo("Realtor");
         assertThat(checkData.getMember().getAccountId()).isEqualTo("Realtor 1");
     }
 
