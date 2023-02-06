@@ -1,7 +1,7 @@
 package com.callbus.community.domain.util;
 
 public enum AccountType {
-    LESSOR("LESSOR"), REALTOR("REALTOR"), LESSEE("LESSEE");
+    LESSOR("Lessor"), REALTOR("Realtor"), LESSEE("Lessee");
 
     private final String accountType;
 

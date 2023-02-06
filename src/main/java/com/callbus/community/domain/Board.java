@@ -55,6 +55,10 @@ public class Board {
     public Board(String title, String content , Member member){
         this.title = title;
         this.content = content;
+    }
+
+    public void addMember(Member member){
         this.member = member;
+        member.addBoard(this);
     }
 }

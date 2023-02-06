@@ -60,4 +60,10 @@ public class Member {
     }
 
 
+    public void addBoard(Board board) {
+        this.boards.add(board);
+        if(board.getMember() != this){
+            board.addMember(this);
+        }
+    }
 }

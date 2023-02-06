@@ -32,9 +32,9 @@ public class BoardRepositoryTest {
         Board board = Board.builder()
                 .title(title)
                 .content(content)
-                .member(member)
                 .build();
 
+        board.addMember(member);
         memberRepository.save(member);
 
         Board checkData = boardRepository.save(board);
@@ -45,10 +45,10 @@ public class BoardRepositoryTest {
         assertThat(checkData.getHit()).isEqualTo(0);
         assertThat(checkData.getMember().getNickname()).isEqualTo("김지인");
         assertThat(checkData.getMember().getAccountType().getAccountType()).isEqualTo("REALTOR");
-        assertThat(checkData.getMember().getAccountId()).isEqualTo("REALTOR 1");
-
-
-
-
+        assertThat(checkData.getMember().getAccountId()).isEqualTo("Realtor 1");
     }
+
+
+
+
 }
