@@ -1,8 +1,10 @@
 package com.callbus.community.controller;
 
 import com.callbus.community.controller.dto.request.BoardSaveReqDto;
+import com.callbus.community.controller.dto.request.BoardUpdateReqDto;
 import com.callbus.community.controller.dto.request.MemberReqDto;
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
+import com.callbus.community.controller.dto.response.BoardUpdateRespDto;
 import com.callbus.community.controller.dto.response.CommonRespDto;
 import com.callbus.community.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +34,9 @@ public class BoardApiController {
     }
 
     @PatchMapping("/api/v1/community/board/{boardId}")
-    public ResponseEntity<?> updateBoard(@PathVariable Long boardId, @RequestBody @Valid BoardSaveReqDto boardSaveReqDto, BindingResult bindingResult){
-        BoardSaveRespDto boardSaveRespDto = boardService.updateBoard(boardId, boardSaveReqDto);
-        return new ResponseEntity<>(CommonRespDto.builder().code(1).msg("글 수정 성공").body(boardSaveRespDto).build(),HttpStatus.OK);
+    public ResponseEntity<?> updateBoard(@PathVariable Long boardId, @RequestBody @Valid BoardUpdateReqDto boardUpdateReqDto, BindingResult bindingResult){
+        BoardUpdateRespDto boardUpdateRespDto = boardService.updateBoard(boardId, boardUpdateReqDto);
+        return new ResponseEntity<>(CommonRespDto.builder().code(1).msg("글 수정 성공").body(boardUpdateRespDto).build(),HttpStatus.OK);
     }
 
 }

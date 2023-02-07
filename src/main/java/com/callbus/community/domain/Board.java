@@ -2,6 +2,7 @@ package com.callbus.community.domain;
 
 import com.callbus.community.common.DateFormatter;
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
+import com.callbus.community.controller.dto.response.BoardUpdateRespDto;
 import com.callbus.community.domain.util.BaseTimeEntity;
 import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
@@ -50,6 +51,17 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board")
     private List<Reply> reply;
 
+//    @Builder
+//    public Board(Long boardId, String title, String content, Integer hit, LocalDateTime createDate,LocalDateTime updateDate,LocalDateTime deleteDate, Status status) {
+//        this.boardId = boardId;
+//        this.title = title;
+//        this.content = content;
+//        this.hit = hit;
+//        super.createDate = createDate;
+//        super.updateDate = updateDate;
+//        this.deleteDate = deleteDate;
+//        this.status = status;
+//    }
     @Builder
     public Board(Long boardId,String title, String content, Status status){
         this.boardId = boardId;
@@ -82,14 +94,27 @@ public class Board extends BaseTimeEntity {
                 .nickname(this.getMember().getNickname())
                 .memberId(this.getMember().getMemberId())
                 .createDate(createDate)
-                .updateDate(LocalDateTime.now())
                 .build();
 
     }
 
-    public Board update(String title, String content){
+    public BoardUpdateRespDto toUpdateDto(){
+        return BoardUpdateRespDto.builder()
+                .boardId(boardId)
+                .title(title)
+                .content(content)
+                .nickname(this.getMember().getNickname())
+                .memberId(this.getMember().getMemberId())
+                .createDate(createDate)
+                .updateDate(updateDate)
+                .build();
+
+    }
+
+    public Board update(String title, String content, LocalDateTime updateDate){
         this.title = title;
         this.content = content;
+        this.updateDate = updateDate;
         return this;
     }
 }

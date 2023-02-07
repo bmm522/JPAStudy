@@ -1,8 +1,10 @@
 package com.callbus.community.service.Impl;
 
 import com.callbus.community.controller.dto.request.BoardSaveReqDto;
+import com.callbus.community.controller.dto.request.BoardUpdateReqDto;
 import com.callbus.community.controller.dto.request.MemberReqDto;
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
+import com.callbus.community.controller.dto.response.BoardUpdateRespDto;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
 import com.callbus.community.repository.BoardRepository;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -44,15 +47,14 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public BoardSaveRespDto updateBoard(Long boardId, BoardSaveReqDto dto) {
+    public BoardUpdateRespDto updateBoard(Long boardId, BoardUpdateReqDto dto) {
 
         Optional<Board> boardOp = Optional.of(boardRepository.findByBoardId(boardId)
                 .orElseThrow(()->new RuntimeException("해당 게시글의 정보를 찾을 수 없습니다.")));
 
-        Board board = boardOp.get().update(dto.getTitle(), dto.getContent());
-//        Board boardPs = boardRepository.save(board);
-//        BoardSaveRespDto boardSaveRespDto = boardPs.toSaveDto();
-        return board.toSaveDto();
+        Board board = boardOp.get().update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
+
+        return board.toUpdateDto();
 
     }
 }

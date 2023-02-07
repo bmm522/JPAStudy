@@ -1,8 +1,10 @@
 package com.callbus.community.service;
 
 import com.callbus.community.controller.dto.request.BoardSaveReqDto;
+import com.callbus.community.controller.dto.request.BoardUpdateReqDto;
 import com.callbus.community.controller.dto.request.MemberReqDto;
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
+import com.callbus.community.controller.dto.response.BoardUpdateRespDto;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.AccountType;
@@ -78,7 +80,7 @@ public class BoardServiceTest {
 
         Long boardId = 1L;
 
-        BoardSaveReqDto boardSaveReqDto = BoardSaveReqDto.builder()
+        BoardUpdateReqDto boardUpdateReqDto = BoardUpdateReqDto.builder()
                 .title("글 수정 서비스 단 변경 후 제목")
                 .content("글 수정 서비스 단 변경 후 내용")
                 .build();
@@ -100,13 +102,13 @@ public class BoardServiceTest {
 
         when(boardRepository.findByBoardId(boardId)).thenReturn(Optional.of(board));
 
-        BoardSaveRespDto boardSaveRespDto = boardService.updateBoard(boardId, boardSaveReqDto);
+        BoardUpdateRespDto boardUpdateRespDto = boardService.updateBoard(boardId, boardUpdateReqDto);
 
-        assertThat(boardSaveRespDto.getTitle()).isEqualTo("글 수정 서비스 단 변경 후 제목");
-        assertThat(boardSaveRespDto.getContent()).isEqualTo("글 수정 서비스 단 변경 후 내용");
-        assertThat(boardSaveRespDto.getNickname()).isEqualTo("김지인");
-        assertThat(boardSaveRespDto.getMemberId()).isEqualTo(1);
-        assertThat(boardSaveRespDto.getBoardId()).isEqualTo(1);
+        assertThat(boardUpdateRespDto.getTitle()).isEqualTo("글 수정 서비스 단 변경 후 제목");
+        assertThat(boardUpdateRespDto.getContent()).isEqualTo("글 수정 서비스 단 변경 후 내용");
+        assertThat(boardUpdateRespDto.getNickname()).isEqualTo("김지인");
+        assertThat(boardUpdateRespDto.getMemberId()).isEqualTo(1);
+        assertThat(boardUpdateRespDto.getBoardId()).isEqualTo(1);
     }
 
 }
