@@ -3,7 +3,7 @@ package com.callbus.community.repository;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.AccountType;
-import com.callbus.community.domain.util.STATUS;
+import com.callbus.community.domain.util.Status;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class BoardRepositoryTest {
         Member member = Member.builder()
                 .id(1L)
                 .nickname("김지인")
-                .accountType(AccountType.REALTOR)
-                .status(STATUS.Y)
+                .accountType(AccountType.Realtor)
+                .status(Status.Y)
                 .build();
         Board board = Board.builder()
                 .title(title)

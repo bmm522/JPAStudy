@@ -1,12 +1,11 @@
 package com.callbus.community.domain;
 
 import com.callbus.community.domain.util.AccountType;
-import com.callbus.community.domain.util.STATUS;
+import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class Member {
     private String accountId;
 
     @Enumerated(EnumType.STRING)
-    private STATUS quit;
+    private Status quit;
 
 
     @OneToMany(mappedBy = "member")
@@ -51,7 +50,7 @@ public class Member {
 
 
     @Builder
-    public Member(long id, String nickname, AccountType accountType, STATUS status){
+    public Member(long id, String nickname, AccountType accountType, Status status){
         this.memberId = id;
         this.nickname = nickname;
         this.accountType = accountType;

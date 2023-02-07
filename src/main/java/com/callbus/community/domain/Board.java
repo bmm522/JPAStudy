@@ -1,18 +1,17 @@
 package com.callbus.community.domain;
 
+import com.callbus.community.common.DateFormatter;
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
-import com.callbus.community.domain.util.STATUS;
+import com.callbus.community.domain.util.BaseTimeEntity;
+import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -20,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Getter
-public class Board {
+public class Board extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,15 +36,10 @@ public class Board {
     private Integer hit = 0;
 
 
-    @CreationTimestamp
-    private Timestamp createDate;
+    private LocalDateTime deleteDate;
 
-    @UpdateTimestamp
-    private Timestamp updateDate;
-
-    private Timestamp deleteDate;
-
-    private STATUS status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberId")
     private Member member;
@@ -57,20 +51,21 @@ public class Board {
     private List<Reply> reply;
 
     @Builder
-    public Board(String title, String content){
+    public Board(Long boardId,String title, String content, Status status){
+        this.boardId = boardId;
         this.title = title;
         this.content = content;
+        this.status = status;
     }
 
     @Builder
-    public Board(Long boardId, String title, String content, Integer hit, Timestamp createDate, Timestamp updateDate) {
+    public Board(Long boardId, String title, String content, Integer hit,Status status) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.hit = hit;
-        this.createDate = createDate;
-        this.updateDate = null;
         this.deleteDate = null;
+        this.status = status;
     }
 
     public void addMember(Member member){
@@ -81,11 +76,20 @@ public class Board {
 
     public BoardSaveRespDto toSaveDto(){
         return BoardSaveRespDto.builder()
+                .boardId(boardId)
                 .title(title)
                 .content(content)
                 .nickname(this.getMember().getNickname())
                 .memberId(this.getMember().getMemberId())
+                .createDate(createDate)
+                .updateDate(LocalDateTime.now())
                 .build();
 
+    }
+
+    public Board update(String title, String content){
+        this.title = title;
+        this.content = content;
+        return this;
     }
 }

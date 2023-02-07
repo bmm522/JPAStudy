@@ -1,19 +1,15 @@
 package com.callbus.community.controller;
 
 import com.callbus.community.controller.dto.request.BoardSaveReqDto;
-import com.callbus.community.controller.dto.request.MemberReqDto;
-import com.callbus.community.controller.dto.response.BoardSaveRespDto;
-import com.callbus.community.controller.dto.response.CommonRespDto;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.AccountType;
-import com.callbus.community.domain.util.STATUS;
+import com.callbus.community.domain.util.Status;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,15 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+
 import static org.assertj.core.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BoardApiControllerTest {
+public class InsertBoardApiControllerTest {
 
     @Autowired
     private BoardRepository boardRepository;
@@ -37,26 +28,20 @@ public class BoardApiControllerTest {
     @Autowired
     private MemberRepository memberRepository;
 
+
     @Autowired
     private TestRestTemplate rt;
 
-    private static HttpHeaders headers;
-    private static ObjectMapper objectMapper;
-
-    @BeforeAll
-    public static void init(){
-        objectMapper = new ObjectMapper();
-        headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-    }
+    private final HttpHeaders headers = StaticStore.getHeaders();
+    private final ObjectMapper objectMapper = StaticStore.getObjectMapper();
 
     @BeforeEach
     public void readyData(){
         Member member = Member.builder()
-                .id(1L)
+                .id(4L)
                 .nickname("김지인")
-                .accountType(AccountType.REALTOR)
-                .status(STATUS.Y)
+                .accountType(AccountType.Realtor)
+                .status(Status.Y)
                 .build();
         memberRepository.save(member);
     }
@@ -69,8 +54,7 @@ public class BoardApiControllerTest {
                 .content("글 저장 내용 테스트")
                 .build();
 
-        headers.set("Authentication", " Realtor 1");
-
+        headers.set("Authentication", " Realtor 4");
         String body = objectMapper.writeValueAsString(boardSaveReqDto);
 
         ResponseEntity<String> response = rt.postForEntity(

@@ -25,10 +25,13 @@ public class BoardServiceImpl implements BoardService {
 
     // 글 저장
     @Transactional(rollbackFor = RuntimeException.class)
-    public BoardSaveRespDto saveBoard(BoardSaveReqDto dto, MemberReqDto memberReqDto){
+    @Override
+    public BoardSaveRespDto saveBoard(BoardSaveReqDto boardSaveReqDto, MemberReqDto memberReqDto){
 
-        Board board = dto.toEntity();
+        Board board = boardSaveReqDto.toEntity();
 
+        System.out.println(memberReqDto.getMemberId());
+        System.out.println(memberReqDto.getAccountType());
         Optional<Member> member = Optional.of(memberRepository.findByMemberId(memberReqDto.getMemberId())
                 .orElseThrow(()->new RuntimeException("해당 회원의 정보를 찾을 수 없습니다.")));
 
@@ -36,6 +39,20 @@ public class BoardServiceImpl implements BoardService {
 
 
         return boardRepository.save(board).toSaveDto();
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public BoardSaveRespDto updateBoard(Long boardId, BoardSaveReqDto dto) {
+
+        Optional<Board> boardOp = Optional.of(boardRepository.findByBoardId(boardId)
+                .orElseThrow(()->new RuntimeException("해당 게시글의 정보를 찾을 수 없습니다.")));
+
+        Board board = boardOp.get().update(dto.getTitle(), dto.getContent());
+//        Board boardPs = boardRepository.save(board);
+//        BoardSaveRespDto boardSaveRespDto = boardPs.toSaveDto();
+        return board.toSaveDto();
 
     }
 }
