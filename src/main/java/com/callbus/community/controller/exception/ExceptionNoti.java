@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionNoti {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> apiException(RuntimeException e){
+    public ResponseEntity<?> runtimeException(RuntimeException e){
+        return new ResponseEntity<>(CommonRespDto.builder().code(-1).msg(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> illegalArgumentException(IllegalArgumentException e){
         return new ResponseEntity<>(CommonRespDto.builder().code(-1).msg(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
     }
 }

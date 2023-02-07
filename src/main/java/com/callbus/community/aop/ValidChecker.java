@@ -35,7 +35,7 @@ public class ValidChecker {
 
                     }
 
-                    throw new RuntimeException(errorMap.toString());
+                    throw new IllegalArgumentException(errorMap.toString());
               }
 
             }
