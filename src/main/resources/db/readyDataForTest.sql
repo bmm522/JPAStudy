@@ -1,0 +1,2 @@
+INSERT INTO BOARD(title, content, status, memberId) VALUES ('테스트 글 첫번째 내용', '테스트 글 첫번째 내용', 'Y', 1);
+INSERT INTO BOARD(title, content, status, memberId) VALUES ('테스트 글 두번째 내용', '테스트 글 두번째 내용', 'Y', 2);
