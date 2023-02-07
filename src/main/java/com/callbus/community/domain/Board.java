@@ -1,7 +1,8 @@
 package com.callbus.community.domain;
 
-import com.callbus.community.common.DateFormatter;
-import com.callbus.community.controller.dto.response.BoardSaveRespDto;
+import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
+import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
+import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
 import com.callbus.community.domain.util.BaseTimeEntity;
 import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,7 @@ public class Board extends BaseTimeEntity {
     private Integer hit = 0;
 
 
-    private LocalDateTime deleteDate;
+
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -50,6 +51,17 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board")
     private List<Reply> reply;
 
+//    @Builder
+//    public Board(Long boardId, String title, String content, Integer hit, LocalDateTime createDate,LocalDateTime updateDate,LocalDateTime deleteDate, Status status) {
+//        this.boardId = boardId;
+//        this.title = title;
+//        this.content = content;
+//        this.hit = hit;
+//        super.createDate = createDate;
+//        super.updateDate = updateDate;
+//        this.deleteDate = deleteDate;
+//        this.status = status;
+//    }
     @Builder
     public Board(Long boardId,String title, String content, Status status){
         this.boardId = boardId;
@@ -74,22 +86,55 @@ public class Board extends BaseTimeEntity {
     }
 
 
-    public BoardSaveRespDto toSaveDto(){
-        return BoardSaveRespDto.builder()
+    public ServiceBoardSaveResponseDto toSaveDto(){
+        return ServiceBoardSaveResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)
                 .nickname(this.getMember().getNickname())
                 .memberId(this.getMember().getMemberId())
                 .createDate(createDate)
-                .updateDate(LocalDateTime.now())
                 .build();
 
     }
 
-    public Board update(String title, String content){
+    public ServiceBoardUpdateResponseDto toUpdateDto(){
+        return ServiceBoardUpdateResponseDto.builder()
+                .boardId(boardId)
+                .title(title)
+                .content(content)
+                .nickname(member.getNickname())
+                .memberId(member.getMemberId())
+                .createDate(createDate)
+                .updateDate(updateDate)
+                .build();
+
+    }
+
+    public ServiceBoardDeleteResponseDto toDeleteDto() {
+        return ServiceBoardDeleteResponseDto.builder()
+                .boardId(boardId)
+                .title(title)
+                .content(content)
+                .nickname(member.getNickname())
+                .memberId(member.getMemberId())
+                .createDate(createDate)
+                .deleteDate(deleteDate)
+                .build();
+    }
+
+    public Board update(String title, String content, LocalDateTime updateDate){
         this.title = title;
         this.content = content;
+        this.updateDate = updateDate;
         return this;
     }
+
+    public Board delete(LocalDateTime deleteDate, Status status) {
+        this.deleteDate = deleteDate;
+        this.status = status;
+        return this;
+    }
+
+
 }

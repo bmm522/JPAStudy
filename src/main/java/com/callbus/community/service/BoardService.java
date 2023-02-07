@@ -1,12 +1,14 @@
 package com.callbus.community.service;
 
-import com.callbus.community.controller.dto.request.BoardSaveReqDto;
-import com.callbus.community.controller.dto.request.MemberReqDto;
-import com.callbus.community.controller.dto.response.BoardSaveRespDto;
+import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
+import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
+import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
 
 public interface BoardService {
 
-    public BoardSaveRespDto saveBoard(BoardSaveReqDto dto, MemberReqDto memberReqDto);
+    public ClientCommonResponseDto<?>  saveBoard(ServiceBoardSaveRequestDto serviceBoardSaveRequestDto);
 
-    public BoardSaveRespDto updateBoard(Long boardId, BoardSaveReqDto boardSaveReqDto);
+    public ClientCommonResponseDto<?> updateBoard(ServiceBoardUpdateReqeustDto serviceBoardUpdateReqeustDto);
+
+    public ClientCommonResponseDto<?> deleteBoard(Long boardId);
 }

@@ -1,6 +1,7 @@
 package com.callbus.community.controller.dto.request;
 
 import com.callbus.community.domain.Board;
+import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class BoardSaveReqDto {
+public class ClientBoardSaveRequestDto {
 
     @Size(min = 1, max = 50)
     @NotBlank
@@ -20,16 +21,9 @@ public class BoardSaveReqDto {
     @NotBlank
     private String content;
 
-    public Board toEntity(){
-        return  Board.builder()
-                .title(title)
-                .content(content)
-                .build();
 
-    }
-
-    @Builder
-    public BoardSaveReqDto(String title, String content){
+    @Builder // Test용 생성자
+    public ClientBoardSaveRequestDto(String title, String content){
         this.title = title;
         this.content = content;
     }

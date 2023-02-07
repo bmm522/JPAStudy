@@ -1,20 +1,19 @@
 package com.callbus.community.controller.dto.request;
 
 
-import com.callbus.community.domain.util.AccountType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class MemberReqDto {
+public class ClientMemberRequestDto {
 
     private Long memberId;
     private String accountType;
 
-    @Builder
-    public MemberReqDto(String memberId, String accountType){
+    @Builder // Test용 생성자
+    public ClientMemberRequestDto(String memberId, String accountType){
         this.memberId = Long.parseLong(memberId);
         this.accountType = accountType;
     }

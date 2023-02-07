@@ -20,9 +20,9 @@ public class BaseTimeEntity {
     @CreatedDate
     protected LocalDateTime createDate;
 
-    @LastModifiedDate
     protected LocalDateTime updateDate;
 
+    protected LocalDateTime deleteDate;
 
 
 }
