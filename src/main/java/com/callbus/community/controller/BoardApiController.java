@@ -4,9 +4,8 @@ import com.callbus.community.controller.dto.request.ClientBoardSaveRequestDto;
 import com.callbus.community.controller.dto.request.ClientBoardUpdateRequestDto;
 import com.callbus.community.controller.dto.request.ClientMemberRequestDto;
 import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
+import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
 import com.callbus.community.service.dto.response.BoardDeleteResponseDto;
-import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
-import com.callbus.community.service.dto.response.BoardUpdateResponseDto;
 import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
 import com.callbus.community.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +39,11 @@ public class BoardApiController {
 
     @PatchMapping("/api/v1/community/board/{boardId}")
     public ResponseEntity<?> updateBoard(@PathVariable Long boardId, @RequestBody @Valid ClientBoardUpdateRequestDto clientBoardUpdateRequestDto, BindingResult bindingResult){
-        BoardUpdateResponseDto boardUpdateRespDto = boardService.updateBoard(boardId, clientBoardUpdateRequestDto);
-        return new ResponseEntity<>(ClientCommonResponseDto.builder().code(1).msg("글 수정 성공").body(boardUpdateRespDto).build(),HttpStatus.OK);
+
+        ServiceBoardUpdateReqeustDto serviceBoardUpdateReqeustDto = new ServiceBoardUpdateReqeustDto(boardId, clientBoardUpdateRequestDto);
+
+        ClientCommonResponseDto<?> clientCommonResponseDto = boardService.updateBoard(serviceBoardUpdateReqeustDto);
+        return new ResponseEntity<>(clientCommonResponseDto,HttpStatus.OK);
     }
 
     @DeleteMapping("/api/v1/community/board/{boardId}")

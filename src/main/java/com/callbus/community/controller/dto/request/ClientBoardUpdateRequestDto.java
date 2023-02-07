@@ -21,17 +21,17 @@ public class ClientBoardUpdateRequestDto {
     @NotBlank
     private String content;
 
-    private LocalDateTime updateDate = LocalDateTime.now();
+    private LocalDateTime updateDate;
 
-    public Board toEntity(){
-        return  Board.builder()
-                .title(title)
-                .content(content)
-                .build();
+//    public Board toEntity(){
+//        return  Board.builder()
+//                .title(title)
+//                .content(content)
+//                .build();
+//
+//    }
 
-    }
-
-    @Builder
+    @Builder // Test용 생성자
     public ClientBoardUpdateRequestDto(String title, String content, LocalDateTime updateDate){
         this.title = title;
         this.content = content;

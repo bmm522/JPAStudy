@@ -21,16 +21,8 @@ public class ClientBoardSaveRequestDto {
     @NotBlank
     private String content;
 
-    public Board toEntity(){
-        return  Board.builder()
-                .title(title)
-                .content(content)
-                .build();
 
-    }
-
-
-    @Builder
+    @Builder // Test용 생성자
     public ClientBoardSaveRequestDto(String title, String content){
         this.title = title;
         this.content = content;

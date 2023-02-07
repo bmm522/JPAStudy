@@ -24,6 +24,14 @@ public class ServiceBoardSaveRequestDto {
                 .content(content)
                 .build();
     }
+    @Builder
+    public ServiceBoardSaveRequestDto(String title, String content, Long memberId, String accountType){
+        this.title = title;
+        this.content = content;
+        this.memberId = memberId;
+        this.accountType = accountType;
+    }
+
 
     public ServiceBoardSaveRequestDto(ClientBoardSaveRequestDto clientBoardSaveRequestDto, ClientMemberRequestDto clientMemberRequestDto){
         this.title = clientBoardSaveRequestDto.getTitle();
@@ -32,11 +40,5 @@ public class ServiceBoardSaveRequestDto {
         this.accountType = clientMemberRequestDto.getAccountType();
     }
 
-    @Builder
-    public ServiceBoardSaveRequestDto(String title, String content, Long memberId, String accountType){
-        this.title = title;
-        this.content = content;
-        this.memberId = memberId;
-        this.accountType = accountType;
-    }
+
 }
