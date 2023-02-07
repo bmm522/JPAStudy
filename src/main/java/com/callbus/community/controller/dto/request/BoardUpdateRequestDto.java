@@ -7,10 +7,11 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class BoardSaveReqDto {
+public class BoardUpdateRequestDto {
 
     @Size(min = 1, max = 50)
     @NotBlank
@@ -19,6 +20,8 @@ public class BoardSaveReqDto {
     @Size(min = 1, max = 500)
     @NotBlank
     private String content;
+
+    private LocalDateTime updateDate = LocalDateTime.now();
 
     public Board toEntity(){
         return  Board.builder()
@@ -29,9 +32,9 @@ public class BoardSaveReqDto {
     }
 
     @Builder
-    public BoardSaveReqDto(String title, String content){
+    public BoardUpdateRequestDto(String title, String content, LocalDateTime updateDate){
         this.title = title;
         this.content = content;
+        this.updateDate = updateDate;
     }
-
 }

@@ -1,11 +1,11 @@
 package com.callbus.community.controller;
 
-import com.callbus.community.controller.dto.request.BoardSaveReqDto;
-import com.callbus.community.controller.dto.request.BoardUpdateReqDto;
-import com.callbus.community.controller.dto.request.MemberReqDto;
-import com.callbus.community.controller.dto.response.BoardSaveRespDto;
-import com.callbus.community.controller.dto.response.BoardUpdateRespDto;
-import com.callbus.community.controller.dto.response.CommonRespDto;
+import com.callbus.community.controller.dto.request.BoardSaveRequestDto;
+import com.callbus.community.controller.dto.request.BoardUpdateRequestDto;
+import com.callbus.community.controller.dto.request.MemberRequestDto;
+import com.callbus.community.controller.dto.response.BoardSaveResponseDto;
+import com.callbus.community.controller.dto.response.BoardUpdateResponseDto;
+import com.callbus.community.controller.dto.response.CommonResponseDto;
 import com.callbus.community.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,20 +23,22 @@ public class BoardApiController {
 
     // 글 저장
     @PostMapping("/api/v1/community/board")
-    public ResponseEntity<?> saveBoard(@RequestBody @Valid BoardSaveReqDto boardSaveReqDto,BindingResult bindingResult ,@RequestAttribute("memberReqDto") MemberReqDto memberReqDto){
+    public ResponseEntity<?> saveBoard(@RequestBody @Valid BoardSaveRequestDto boardSaveRequestDto, BindingResult bindingResult , @RequestAttribute("memberReqDto") MemberRequestDto memberReqDto){
 
         if(memberReqDto.getAccountType().equals("externalUser")){
             throw new RuntimeException("글 권한이 없는 회원입니다.");
         }
 
-        BoardSaveRespDto boardSaveRespDto = boardService.saveBoard(boardSaveReqDto, memberReqDto);
-        return new ResponseEntity<>(CommonRespDto.builder().code(1).msg("글 저장 성공").body(boardSaveRespDto).build(), HttpStatus.CREATED);
+        BoardSaveResponseDto boardSaveResponseDto = boardService.saveBoard(boardSaveRequestDto, memberReqDto);
+        return new ResponseEntity<>(CommonResponseDto.builder().code(1).msg("글 저장 성공").body(boardSaveResponseDto).build(), HttpStatus.CREATED);
     }
 
     @PatchMapping("/api/v1/community/board/{boardId}")
-    public ResponseEntity<?> updateBoard(@PathVariable Long boardId, @RequestBody @Valid BoardUpdateReqDto boardUpdateReqDto, BindingResult bindingResult){
-        BoardUpdateRespDto boardUpdateRespDto = boardService.updateBoard(boardId, boardUpdateReqDto);
-        return new ResponseEntity<>(CommonRespDto.builder().code(1).msg("글 수정 성공").body(boardUpdateRespDto).build(),HttpStatus.OK);
+    public ResponseEntity<?> updateBoard(@PathVariable Long boardId, @RequestBody @Valid BoardUpdateRequestDto boardUpdateRequestDto, BindingResult bindingResult){
+        BoardUpdateResponseDto boardUpdateRespDto = boardService.updateBoard(boardId, boardUpdateRequestDto);
+        return new ResponseEntity<>(CommonResponseDto.builder().code(1).msg("글 수정 성공").body(boardUpdateRespDto).build(),HttpStatus.OK);
     }
+
+    @DeleteMapping("/api/v1/community/board/{boardId}")
 
 }

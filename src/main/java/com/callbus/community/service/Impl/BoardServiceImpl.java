@@ -1,10 +1,10 @@
 package com.callbus.community.service.Impl;
 
-import com.callbus.community.controller.dto.request.BoardSaveReqDto;
-import com.callbus.community.controller.dto.request.BoardUpdateReqDto;
-import com.callbus.community.controller.dto.request.MemberReqDto;
-import com.callbus.community.controller.dto.response.BoardSaveRespDto;
-import com.callbus.community.controller.dto.response.BoardUpdateRespDto;
+import com.callbus.community.controller.dto.request.BoardSaveRequestDto;
+import com.callbus.community.controller.dto.request.BoardUpdateRequestDto;
+import com.callbus.community.controller.dto.request.MemberRequestDto;
+import com.callbus.community.controller.dto.response.BoardSaveResponseDto;
+import com.callbus.community.controller.dto.response.BoardUpdateResponseDto;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
 import com.callbus.community.repository.BoardRepository;
@@ -29,12 +29,10 @@ public class BoardServiceImpl implements BoardService {
     // 글 저장
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public BoardSaveRespDto saveBoard(BoardSaveReqDto boardSaveReqDto, MemberReqDto memberReqDto){
+    public BoardSaveResponseDto saveBoard(BoardSaveRequestDto boardSaveRequestDto, MemberRequestDto memberReqDto){
 
-        Board board = boardSaveReqDto.toEntity();
+        Board board = boardSaveRequestDto.toEntity();
 
-        System.out.println(memberReqDto.getMemberId());
-        System.out.println(memberReqDto.getAccountType());
         Optional<Member> member = Optional.of(memberRepository.findByMemberId(memberReqDto.getMemberId())
                 .orElseThrow(()->new RuntimeException("해당 회원의 정보를 찾을 수 없습니다.")));
 
@@ -47,12 +45,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public BoardUpdateRespDto updateBoard(Long boardId, BoardUpdateReqDto dto) {
+    public BoardUpdateResponseDto updateBoard(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto) {
 
         Optional<Board> boardOp = Optional.of(boardRepository.findByBoardId(boardId)
                 .orElseThrow(()->new RuntimeException("해당 게시글의 정보를 찾을 수 없습니다.")));
 
-        Board board = boardOp.get().update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
+        Board board = boardOp.get().update(boardUpdateRequestDto.getTitle(), boardUpdateRequestDto.getContent(), LocalDateTime.now());
 
         return board.toUpdateDto();
 

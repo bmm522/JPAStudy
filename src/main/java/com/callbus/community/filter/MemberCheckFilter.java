@@ -1,7 +1,7 @@
 package com.callbus.community.filter;
 
 
-import com.callbus.community.controller.dto.request.MemberReqDto;
+import com.callbus.community.controller.dto.request.MemberRequestDto;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -14,21 +14,21 @@ public class MemberCheckFilter implements Filter {
         try {
             String authentication = ((HttpServletRequest) request).getHeader("Authentication");
 
-            MemberReqDto memberReqDto = getDto(getInfoFromAuthentication(authentication, 1), getInfoFromAuthentication(authentication, 0));
+            MemberRequestDto memberReqDto = getDto(getInfoFromAuthentication(authentication, 1), getInfoFromAuthentication(authentication, 0));
             request.setAttribute("memberReqDto", memberReqDto);
             filterChain.doFilter(request, response);
 
         } catch (Exception e){
 
-            MemberReqDto memberReqDto = getDto("0", "externalUser");
+            MemberRequestDto memberReqDto = getDto("0", "externalUser");
             request.setAttribute("memberReqDto", memberReqDto);
             filterChain.doFilter(request, response);
         }
 
     }
 
-    public MemberReqDto getDto(String memberId, String accountType){
-        return MemberReqDto.builder()
+    public MemberRequestDto getDto(String memberId, String accountType){
+        return MemberRequestDto.builder()
                 .memberId(memberId)
                 .accountType(accountType)
                 .build();

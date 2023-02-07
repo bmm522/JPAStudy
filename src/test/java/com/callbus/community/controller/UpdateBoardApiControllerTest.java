@@ -1,10 +1,6 @@
 package com.callbus.community.controller;
 
-import com.callbus.community.controller.dto.request.BoardUpdateReqDto;
-import com.callbus.community.domain.Board;
-import com.callbus.community.domain.Member;
-import com.callbus.community.domain.util.AccountType;
-import com.callbus.community.domain.util.Status;
+import com.callbus.community.controller.dto.request.BoardUpdateRequestDto;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,9 +16,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.web.client.RestTemplate;
-
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -55,13 +48,13 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardSuccess() throws JsonProcessingException {
 
         Long boardId = 1L;
-        BoardUpdateReqDto boardUpdateReqDto = BoardUpdateReqDto.builder()
+        BoardUpdateRequestDto boardUpdateRequestDto = BoardUpdateRequestDto.builder()
                 .title("글 수정 후 제목 테스트")
                 .content("글 수정 후 내용 테스트")
                 .build();
 
         headers.set("Authentication", " Realtor 1");
-        String body = objectMapper.writeValueAsString(boardUpdateReqDto);
+        String body = objectMapper.writeValueAsString(boardUpdateRequestDto);
 
         ResponseEntity<String> response = exchange(boardId, body);
 
@@ -84,7 +77,7 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardWhenInvalid() throws JsonProcessingException {
 
         Long boardId = 1L;
-        BoardUpdateReqDto boardupdateReqDto = BoardUpdateReqDto.builder()
+        BoardUpdateRequestDto boardupdateRequestDto = BoardUpdateRequestDto.builder()
                 .title("글 수정 후 제목 테스트글 수정 후 제목 테스트글 " +
                         "수정 후 제목 테스트글 수정 후 제목 테스트글 수정 " +
                         "후 제목 테스트글 수정 후 제목 테스트글 수정 " +
@@ -94,7 +87,7 @@ public class UpdateBoardApiControllerTest {
                 .build();
 
         headers.set("Authentication", " Realtor 1");
-        String body = objectMapper.writeValueAsString(boardupdateReqDto);
+        String body = objectMapper.writeValueAsString(boardupdateRequestDto);
 
         ResponseEntity<String> response = exchange(boardId, body);
 
@@ -115,13 +108,13 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardWrongBoardId() throws JsonProcessingException {
 
         Long boardId = 5L;
-        BoardUpdateReqDto boardUpdateReqDto = BoardUpdateReqDto.builder()
+        BoardUpdateRequestDto boardUpdateRequestDto = BoardUpdateRequestDto.builder()
                 .title("글 수정 후 제목 테스트")
                 .content("글 수정 후 내용 테스트")
                 .build();
 
         headers.set("Authentication", " Realtor 1");
-        String body = objectMapper.writeValueAsString(boardUpdateReqDto);
+        String body = objectMapper.writeValueAsString(boardUpdateRequestDto);
 
         ResponseEntity<String> response = exchange(boardId, body);
 

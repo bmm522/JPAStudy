@@ -1,8 +1,7 @@
 package com.callbus.community.domain;
 
-import com.callbus.community.common.DateFormatter;
-import com.callbus.community.controller.dto.response.BoardSaveRespDto;
-import com.callbus.community.controller.dto.response.BoardUpdateRespDto;
+import com.callbus.community.controller.dto.response.BoardSaveResponseDto;
+import com.callbus.community.controller.dto.response.BoardUpdateResponseDto;
 import com.callbus.community.domain.util.BaseTimeEntity;
 import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
@@ -86,8 +85,8 @@ public class Board extends BaseTimeEntity {
     }
 
 
-    public BoardSaveRespDto toSaveDto(){
-        return BoardSaveRespDto.builder()
+    public BoardSaveResponseDto toSaveDto(){
+        return BoardSaveResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)
@@ -98,8 +97,8 @@ public class Board extends BaseTimeEntity {
 
     }
 
-    public BoardUpdateRespDto toUpdateDto(){
-        return BoardUpdateRespDto.builder()
+    public BoardUpdateResponseDto toUpdateDto(){
+        return BoardUpdateResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)
