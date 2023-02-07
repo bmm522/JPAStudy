@@ -1,19 +1,17 @@
 package com.callbus.community.service.Impl;
 
-import com.callbus.community.controller.dto.request.ClientBoardSaveRequestDto;
-import com.callbus.community.controller.dto.request.ClientBoardUpdateRequestDto;
-import com.callbus.community.controller.dto.request.ClientMemberRequestDto;
 import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
 import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
-import com.callbus.community.service.dto.response.BoardDeleteResponseDto;
+import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
+import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
 import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
-import com.callbus.community.service.dto.response.BoardUpdateResponseDto;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.Status;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.callbus.community.service.BoardService;
+import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,14 +47,15 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public BoardUpdateResponseDto updateBoard(Long boardId, ClientBoardUpdateRequestDto clientBoardUpdateRequestDto) {
+    public ClientCommonResponseDto<?> updateBoard(ServiceBoardUpdateReqeustDto serviceBoardUpdateReqeustDto) {
 
+        Optional<Board> boardOptional = getOptionalBoard(serviceBoardUpdateReqeustDto.getBoardId());
 
-        Optional<Board> boardOptional = getOptionalBoard(boardId);
+        Board board = boardOptional.get().update(serviceBoardUpdateReqeustDto.getTitle(), serviceBoardUpdateReqeustDto.getContent(), serviceBoardUpdateReqeustDto.getUpdateDate());
 
-        Board board = boardOptional.get().update(clientBoardUpdateRequestDto.getTitle(), clientBoardUpdateRequestDto.getContent(), LocalDateTime.now());
+        ServiceBoardUpdateResponseDto serviceBoardUpdateResponseDto = board.toUpdateDto();
 
-        return board.toUpdateDto();
+        return ClientCommonResponseDto.builder().code(1).msg("글 수정 성공").body(serviceBoardUpdateResponseDto).build();
 
     }
 
@@ -64,13 +63,15 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public BoardDeleteResponseDto deleteBoard(Long boardId) {
+    public ClientCommonResponseDto<?> deleteBoard(Long boardId) {
 
         Optional<Board> boardOptional = getOptionalBoard(boardId);
 
         Board board = boardOptional.get().delete(LocalDateTime.now(), Status.N);
 
-        return board.toDeleteDto();
+        ServiceBoardDeleteResponseDto serviceBoardDeleteResponseDto = board.toDeleteDto();
+
+        return ClientCommonResponseDto.builder().code(1).msg("글 삭제 성공").body(serviceBoardDeleteResponseDto).build();
     }
 
     private Optional<Board> getOptionalBoard(Long boardId) {

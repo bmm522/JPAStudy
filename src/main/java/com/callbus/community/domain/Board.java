@@ -1,8 +1,8 @@
 package com.callbus.community.domain;
 
-import com.callbus.community.service.dto.response.BoardDeleteResponseDto;
+import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
 import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
-import com.callbus.community.service.dto.response.BoardUpdateResponseDto;
+import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
 import com.callbus.community.domain.util.BaseTimeEntity;
 import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
@@ -98,8 +98,8 @@ public class Board extends BaseTimeEntity {
 
     }
 
-    public BoardUpdateResponseDto toUpdateDto(){
-        return BoardUpdateResponseDto.builder()
+    public ServiceBoardUpdateResponseDto toUpdateDto(){
+        return ServiceBoardUpdateResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)
@@ -111,8 +111,8 @@ public class Board extends BaseTimeEntity {
 
     }
 
-    public BoardDeleteResponseDto toDeleteDto() {
-        return BoardDeleteResponseDto.builder()
+    public ServiceBoardDeleteResponseDto toDeleteDto() {
+        return ServiceBoardDeleteResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)

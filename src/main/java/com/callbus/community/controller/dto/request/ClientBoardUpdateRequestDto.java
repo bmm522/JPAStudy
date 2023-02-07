@@ -23,13 +23,6 @@ public class ClientBoardUpdateRequestDto {
 
     private LocalDateTime updateDate;
 
-//    public Board toEntity(){
-//        return  Board.builder()
-//                .title(title)
-//                .content(content)
-//                .build();
-//
-//    }
 
     @Builder // Test용 생성자
     public ClientBoardUpdateRequestDto(String title, String content, LocalDateTime updateDate){

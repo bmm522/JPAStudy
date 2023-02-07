@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-public class BoardUpdateResponseDto {
+public class ServiceBoardUpdateResponseDto {
 
     private Long boardId;
     private String title;
@@ -21,7 +21,7 @@ public class BoardUpdateResponseDto {
     private Long memberId;
 
     @Builder
-    public BoardUpdateResponseDto(Long boardId, String title, String content, String nickname, Long memberId, LocalDateTime createDate, LocalDateTime updateDate){
+    public ServiceBoardUpdateResponseDto(Long boardId, String title, String content, String nickname, Long memberId, LocalDateTime createDate, LocalDateTime updateDate){
         this.boardId = boardId;
         this.title = title;
         this.content = content;
