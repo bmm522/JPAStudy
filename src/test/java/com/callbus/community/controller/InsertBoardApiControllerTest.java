@@ -3,14 +3,13 @@ package com.callbus.community.controller;
 import com.callbus.community.controller.dto.request.BoardSaveReqDto;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.AccountType;
-import com.callbus.community.domain.util.STATUS;
+import com.callbus.community.domain.util.Status;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,27 +28,20 @@ public class InsertBoardApiControllerTest {
     @Autowired
     private MemberRepository memberRepository;
 
+
     @Autowired
     private TestRestTemplate rt;
 
-    private static HttpHeaders headers;
-    private static ObjectMapper objectMapper;
-
-    @BeforeAll
-    public static void init(){
-        objectMapper = new ObjectMapper();
-        headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-    }
+    private final HttpHeaders headers = StaticStore.getHeaders();
+    private final ObjectMapper objectMapper = StaticStore.getObjectMapper();
 
     @BeforeEach
     public void readyData(){
         Member member = Member.builder()
                 .id(4L)
                 .nickname("김지인")
-                .accountType(AccountType.REALTOR)
-                .status(STATUS.Y)
+                .accountType(AccountType.Realtor)
+                .status(Status.Y)
                 .build();
         memberRepository.save(member);
     }
