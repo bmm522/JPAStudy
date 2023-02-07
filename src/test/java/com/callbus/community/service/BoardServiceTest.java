@@ -35,7 +35,7 @@ public class BoardServiceTest {
     private MemberRepository memberRepository;
 
     @Test
-    @DisplayName("서비스단 : 글 작성 테스트")
+    @DisplayName("서비스단 글 작성 테스트")
     public void saveBoardTest(){
         BoardSaveReqDto boardSaveReqDto = BoardSaveReqDto.builder()
                 .title("글 작성 서비스 단 테스트 제목")
@@ -66,4 +66,46 @@ public class BoardServiceTest {
         assertThat(boardSaveRespDto.getNickname()).isEqualTo("김지인");
         assertThat(boardSaveRespDto.getMemberId()).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("서비스단 글 수정 테스트")
+    public void updateBoardTest(){
+
+        Long boardId = 1L;
+
+        BoardSaveReqDto boardSaveReqDto = BoardSaveReqDto.builder()
+                .title("글 수정 서비스 단 변경 후 제목")
+                .content("글 수정 서비스 단 변경 후 내용")
+                .build();
+
+        Optional<Member> member =  Optional.of(Member.builder()
+                .id(1L)
+                .nickname("김지인")
+                .accountType(AccountType.REALTOR)
+                .status(STATUS.Y)
+                .build());
+
+        Board board = Board.builder()
+                .boardId(1L)
+                .title("글 수정 서비스 단 변경 전 제목")
+                .content("글 수정 서비스 단 변경 전 내용")
+                .build();
+
+        board.addMember(member.get());
+        Board test = boardRepository.save(board);
+//        System.out.println(test.getBoardId());
+        when(boardRepository.findByBoardId(boardId)).thenReturn(Optional.of(board));
+
+        BoardSaveRespDto boardSaveRespDto = boardService.updateBoard(boardId, boardSaveReqDto);
+
+        System.out.println(boardSaveRespDto.getCreateDate());
+        System.out.println(boardSaveRespDto.getUpdateDate());
+
+        assertThat(boardSaveRespDto.getTitle()).isEqualTo("글 수정 서비스 단 변경 후 제목");
+        assertThat(boardSaveRespDto.getContent()).isEqualTo("글 수정 서비스 단 변경 후 내용");
+        assertThat(boardSaveRespDto.getNickname()).isEqualTo("김지인");
+        assertThat(boardSaveRespDto.getMemberId()).isEqualTo(1);
+//        assertThat(boardSaveRespDto.getBoardId()).isEqualTo(1);
+    }
+
 }

@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -32,6 +29,12 @@ public class BoardApiController {
 
         BoardSaveRespDto boardSaveRespDto = boardService.saveBoard(boardSaveReqDto, memberReqDto);
         return new ResponseEntity<>(CommonRespDto.builder().code(1).msg("글 저장 성공").body(boardSaveRespDto).build(), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/api/v1/community/board/{boardId}")
+    public ResponseEntity<?> updateBoard(@PathVariable Long boardId, @RequestBody @Valid BoardSaveReqDto boardSaveReqDto, BindingResult bindingResult){
+        BoardSaveRespDto boardSaveRespDto = boardService.updateBoard(boardId, boardSaveReqDto);
+        return new ResponseEntity<>(CommonRespDto.builder().code(1).msg("글 수정 성공").body(boardSaveRespDto).build(),HttpStatus.OK);
     }
 
 }
