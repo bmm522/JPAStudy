@@ -1,21 +1,16 @@
 package com.callbus.community.domain;
 
+import com.callbus.community.common.DateFormatter;
 import com.callbus.community.controller.dto.response.BoardSaveRespDto;
 import com.callbus.community.domain.util.BaseTimeEntity;
-import com.callbus.community.domain.util.STATUS;
+import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,15 +36,10 @@ public class Board extends BaseTimeEntity {
     private Integer hit = 0;
 
 
-//    @CreatedDate
-//    private LocalDateTime createDate;
-//
-//    @LastModifiedDate
-//    private LocalDateTime updateDate;
-
     private LocalDateTime deleteDate;
 
-    private STATUS status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberId")
     private Member member;
@@ -61,20 +51,21 @@ public class Board extends BaseTimeEntity {
     private List<Reply> reply;
 
     @Builder
-    public Board(Long boardId,String title, String content){
+    public Board(Long boardId,String title, String content, Status status){
         this.boardId = boardId;
         this.title = title;
         this.content = content;
+        this.status = status;
     }
 
     @Builder
-    public Board(Long boardId, String title, String content, Integer hit) {
+    public Board(Long boardId, String title, String content, Integer hit,Status status) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.hit = hit;
         this.deleteDate = null;
-        this.status = STATUS.Y;
+        this.status = status;
     }
 
     public void addMember(Member member){
@@ -91,7 +82,7 @@ public class Board extends BaseTimeEntity {
                 .nickname(this.getMember().getNickname())
                 .memberId(this.getMember().getMemberId())
                 .createDate(createDate)
-                .updateDate(updateDate)
+                .updateDate(LocalDateTime.now())
                 .build();
 
     }

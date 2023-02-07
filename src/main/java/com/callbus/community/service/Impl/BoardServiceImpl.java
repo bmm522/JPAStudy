@@ -50,9 +50,9 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(()->new RuntimeException("해당 게시글의 정보를 찾을 수 없습니다.")));
 
         Board board = boardOp.get().update(dto.getTitle(), dto.getContent());
-        Board boardPs = boardRepository.save(board);
-
-        return boardPs.toSaveDto();
+//        Board boardPs = boardRepository.save(board);
+//        BoardSaveRespDto boardSaveRespDto = boardPs.toSaveDto();
+        return board.toSaveDto();
 
     }
 }
