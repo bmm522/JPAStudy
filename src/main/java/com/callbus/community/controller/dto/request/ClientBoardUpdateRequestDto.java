@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class BoardUpdateRequestDto {
+public class ClientBoardUpdateRequestDto {
 
     @Size(min = 1, max = 50)
     @NotBlank
@@ -32,7 +32,7 @@ public class BoardUpdateRequestDto {
     }
 
     @Builder
-    public BoardUpdateRequestDto(String title, String content, LocalDateTime updateDate){
+    public ClientBoardUpdateRequestDto(String title, String content, LocalDateTime updateDate){
         this.title = title;
         this.content = content;
         this.updateDate = updateDate;

@@ -1,6 +1,6 @@
 package com.callbus.community.controller;
 
-import com.callbus.community.controller.dto.request.BoardSaveRequestDto;
+import com.callbus.community.controller.dto.request.ClientBoardSaveRequestDto;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.AccountType;
 import com.callbus.community.domain.util.Status;
@@ -49,13 +49,13 @@ public class InsertBoardApiControllerTest {
     @Test
     @DisplayName("정상적인 요청 글 저장 테스트")
     public void testSaveBoardSuccess() throws JsonProcessingException {
-        BoardSaveRequestDto boardSaveRequestDto = BoardSaveRequestDto.builder()
+        ClientBoardSaveRequestDto clientBoardSaveRequestDto = ClientBoardSaveRequestDto.builder()
                 .title("글 저장 제목 테스트")
                 .content("글 저장 내용 테스트")
                 .build();
 
         headers.set("Authentication", " Realtor 4");
-        String body = objectMapper.writeValueAsString(boardSaveRequestDto);
+        String body = objectMapper.writeValueAsString(clientBoardSaveRequestDto);
 
         ResponseEntity<String> response = rt.postForEntity(
                 "/api/v1/community/board",
@@ -78,12 +78,12 @@ public class InsertBoardApiControllerTest {
     @Test
     @DisplayName("헤더에 값이 없을 때 요청 글 저장 테스트")
     public void testSaveBoardWhenWithoutHeader() throws JsonProcessingException {
-        BoardSaveRequestDto boardSaveRequestDto = BoardSaveRequestDto.builder()
+        ClientBoardSaveRequestDto clientBoardSaveRequestDto = ClientBoardSaveRequestDto.builder()
                 .title("글 저장 제목 테스트")
                 .content("글 저장 내용 테스트")
                 .build();
 
-        String body = objectMapper.writeValueAsString(boardSaveRequestDto);
+        String body = objectMapper.writeValueAsString(clientBoardSaveRequestDto);
         headers.remove("Authentication");
         ResponseEntity<String> response = rt.postForEntity(
                 "/api/v1/community/board",
@@ -107,7 +107,7 @@ public class InsertBoardApiControllerTest {
     @Test
     @DisplayName("잘못된 요청 글 저장 테스트")
     public void testSaveBoardWhenInvalid() throws JsonProcessingException {
-        BoardSaveRequestDto boardSaveRequestDto = BoardSaveRequestDto.builder()
+        ClientBoardSaveRequestDto clientBoardSaveRequestDto = ClientBoardSaveRequestDto.builder()
                 .title("글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트" +
                         "글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트" +
                         "글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트")
@@ -116,7 +116,7 @@ public class InsertBoardApiControllerTest {
 
         headers.set("Authentication", " Realtor 1");
 
-        String body = objectMapper.writeValueAsString(boardSaveRequestDto);
+        String body = objectMapper.writeValueAsString(clientBoardSaveRequestDto);
 
         ResponseEntity<String> response = rt.postForEntity(
                 "/api/v1/community/board",

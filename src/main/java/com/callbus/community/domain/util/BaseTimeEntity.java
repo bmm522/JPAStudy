@@ -22,6 +22,7 @@ public class BaseTimeEntity {
 
     protected LocalDateTime updateDate;
 
+    protected LocalDateTime deleteDate;
 
 
 }

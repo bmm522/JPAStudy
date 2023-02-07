@@ -1,7 +1,8 @@
 package com.callbus.community.domain;
 
-import com.callbus.community.controller.dto.response.BoardSaveResponseDto;
-import com.callbus.community.controller.dto.response.BoardUpdateResponseDto;
+import com.callbus.community.service.dto.response.BoardDeleteResponseDto;
+import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
+import com.callbus.community.service.dto.response.BoardUpdateResponseDto;
 import com.callbus.community.domain.util.BaseTimeEntity;
 import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,7 @@ public class Board extends BaseTimeEntity {
     private Integer hit = 0;
 
 
-    private LocalDateTime deleteDate;
+
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -85,8 +86,8 @@ public class Board extends BaseTimeEntity {
     }
 
 
-    public BoardSaveResponseDto toSaveDto(){
-        return BoardSaveResponseDto.builder()
+    public ServiceBoardSaveResponseDto toSaveDto(){
+        return ServiceBoardSaveResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)
@@ -102,12 +103,24 @@ public class Board extends BaseTimeEntity {
                 .boardId(boardId)
                 .title(title)
                 .content(content)
-                .nickname(this.getMember().getNickname())
-                .memberId(this.getMember().getMemberId())
+                .nickname(member.getNickname())
+                .memberId(member.getMemberId())
                 .createDate(createDate)
                 .updateDate(updateDate)
                 .build();
 
+    }
+
+    public BoardDeleteResponseDto toDeleteDto() {
+        return BoardDeleteResponseDto.builder()
+                .boardId(boardId)
+                .title(title)
+                .content(content)
+                .nickname(member.getNickname())
+                .memberId(member.getMemberId())
+                .createDate(createDate)
+                .deleteDate(deleteDate)
+                .build();
     }
 
     public Board update(String title, String content, LocalDateTime updateDate){
@@ -116,4 +129,12 @@ public class Board extends BaseTimeEntity {
         this.updateDate = updateDate;
         return this;
     }
+
+    public Board delete(LocalDateTime deleteDate, Status status) {
+        this.deleteDate = deleteDate;
+        this.status = status;
+        return this;
+    }
+
+
 }

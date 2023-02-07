@@ -1,14 +1,19 @@
 package com.callbus.community.service;
 
-import com.callbus.community.controller.dto.request.BoardSaveRequestDto;
-import com.callbus.community.controller.dto.request.BoardUpdateRequestDto;
-import com.callbus.community.controller.dto.request.MemberRequestDto;
-import com.callbus.community.controller.dto.response.BoardSaveResponseDto;
-import com.callbus.community.controller.dto.response.BoardUpdateResponseDto;
+import com.callbus.community.controller.dto.request.ClientBoardSaveRequestDto;
+import com.callbus.community.controller.dto.request.ClientBoardUpdateRequestDto;
+import com.callbus.community.controller.dto.request.ClientMemberRequestDto;
+import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
+import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
+import com.callbus.community.service.dto.response.BoardDeleteResponseDto;
+import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
+import com.callbus.community.service.dto.response.BoardUpdateResponseDto;
 
 public interface BoardService {
 
-    public BoardSaveResponseDto saveBoard(BoardSaveRequestDto dto, MemberRequestDto memberReqDto);
+    public ClientCommonResponseDto<?>  saveBoard(ServiceBoardSaveRequestDto serviceBoardSaveRequestDto);
 
-    public BoardUpdateResponseDto updateBoard(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto);
+    public BoardUpdateResponseDto updateBoard(Long boardId, ClientBoardUpdateRequestDto clientBoardUpdateRequestDto);
+
+    public BoardDeleteResponseDto deleteBoard(Long boardId);
 }

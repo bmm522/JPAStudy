@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CommonResponseDto<T> {
+public class ClientCommonResponseDto<T> {
 
     private Integer code; // 1. SUCCESS, -1 FAIL
     private String msg;
@@ -12,7 +12,7 @@ public class CommonResponseDto<T> {
     private T body;
 
     @Builder
-    public CommonResponseDto(int code, String msg, T body ){
+    public ClientCommonResponseDto(int code, String msg, T body ){
         this.code = code;
         this.msg = msg;
         this.body = body;

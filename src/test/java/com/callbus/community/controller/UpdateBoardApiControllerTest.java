@@ -1,6 +1,6 @@
 package com.callbus.community.controller;
 
-import com.callbus.community.controller.dto.request.BoardUpdateRequestDto;
+import com.callbus.community.controller.dto.request.ClientBoardUpdateRequestDto;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,13 +48,13 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardSuccess() throws JsonProcessingException {
 
         Long boardId = 1L;
-        BoardUpdateRequestDto boardUpdateRequestDto = BoardUpdateRequestDto.builder()
+        ClientBoardUpdateRequestDto clientBoardUpdateRequestDto = ClientBoardUpdateRequestDto.builder()
                 .title("글 수정 후 제목 테스트")
                 .content("글 수정 후 내용 테스트")
                 .build();
 
         headers.set("Authentication", " Realtor 1");
-        String body = objectMapper.writeValueAsString(boardUpdateRequestDto);
+        String body = objectMapper.writeValueAsString(clientBoardUpdateRequestDto);
 
         ResponseEntity<String> response = exchange(boardId, body);
 
@@ -77,7 +77,7 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardWhenInvalid() throws JsonProcessingException {
 
         Long boardId = 1L;
-        BoardUpdateRequestDto boardupdateRequestDto = BoardUpdateRequestDto.builder()
+        ClientBoardUpdateRequestDto boardupdateRequestDtoClient = ClientBoardUpdateRequestDto.builder()
                 .title("글 수정 후 제목 테스트글 수정 후 제목 테스트글 " +
                         "수정 후 제목 테스트글 수정 후 제목 테스트글 수정 " +
                         "후 제목 테스트글 수정 후 제목 테스트글 수정 " +
@@ -87,7 +87,7 @@ public class UpdateBoardApiControllerTest {
                 .build();
 
         headers.set("Authentication", " Realtor 1");
-        String body = objectMapper.writeValueAsString(boardupdateRequestDto);
+        String body = objectMapper.writeValueAsString(boardupdateRequestDtoClient);
 
         ResponseEntity<String> response = exchange(boardId, body);
 
@@ -108,13 +108,13 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardWrongBoardId() throws JsonProcessingException {
 
         Long boardId = 5L;
-        BoardUpdateRequestDto boardUpdateRequestDto = BoardUpdateRequestDto.builder()
+        ClientBoardUpdateRequestDto clientBoardUpdateRequestDto = ClientBoardUpdateRequestDto.builder()
                 .title("글 수정 후 제목 테스트")
                 .content("글 수정 후 내용 테스트")
                 .build();
 
         headers.set("Authentication", " Realtor 1");
-        String body = objectMapper.writeValueAsString(boardUpdateRequestDto);
+        String body = objectMapper.writeValueAsString(clientBoardUpdateRequestDto);
 
         ResponseEntity<String> response = exchange(boardId, body);
 

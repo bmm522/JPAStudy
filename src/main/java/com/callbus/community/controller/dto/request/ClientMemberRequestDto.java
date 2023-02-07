@@ -7,13 +7,13 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class MemberRequestDto {
+public class ClientMemberRequestDto {
 
     private Long memberId;
     private String accountType;
 
     @Builder
-    public MemberRequestDto(String memberId, String accountType){
+    public ClientMemberRequestDto(String memberId, String accountType){
         this.memberId = Long.parseLong(memberId);
         this.accountType = accountType;
     }
