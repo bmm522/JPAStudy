@@ -43,6 +43,14 @@ public class BoardApiController {
         return new ResponseEntity<>(ClientCommonResponseDto.builder().code(Code.SUCCESS.getCode()).msg("글 목록 보기 성공").body(serviceGetBoardListResponseDto).build(), HttpStatus.OK);
     }
 
+    // 글 한건 보기
+    @GetMapping("/api/v1/community/board/{boardId}")
+    public ResponseEntity<?> getBoard(@PathVariable Long boardId,@RequestAttribute("memberReqDto") ClientMemberRequestDto clientMemberRequestDto){
+        ServiceGetBoardRequestDto serviceGetBoardRequestDto = new ServiceGetBoardRequestDto(boardId,clientMemberRequestDto);
+        ServiceGetBoardResponseDto serviceGetBoardResponseDto = boardService.getBoardDetails(serviceGetBoardRequestDto);
+        return new ResponseEntity<>(ClientCommonResponseDto.builder().code(Code.SUCCESS.getCode()).msg("글 목록 보기 성공").body(serviceGetBoardResponseDto).build(), HttpStatus.OK);
+    }
+
      // 글 목록에서의 좋아요
     @PostMapping("/api/v1/community/boards/like")
     public ResponseEntity<?> saveLikeOnBoards(@RequestBody ClientLikeSaveRequestDto clientLikeSaveRequestDto, @RequestAttribute("memberReqDto") ClientMemberRequestDto clientMemberRequestDto){

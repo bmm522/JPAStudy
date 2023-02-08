@@ -9,15 +9,28 @@ public class ServiceGetBoardRequestDto {
 
     private Long memberId;
 
+    private Long boardId;
+
     private AccountType accountType;
 
     public ServiceGetBoardRequestDto(ClientMemberRequestDto clientMemberRequestDto) {
-        memberId = clientMemberRequestDto.getMemberId();
-        switch (clientMemberRequestDto.getAccountType()){
-            case "Realtor" : this.accountType = AccountType.Realtor; break;
-            case "Lessor" : this.accountType = AccountType.Lessor; break;
-            case "Lessee" : this.accountType = AccountType.Lessee; break;
-            default: this.accountType = AccountType.externalUser; break;
+        this.memberId = clientMemberRequestDto.getMemberId();
+        this.accountType = getAccountType(clientMemberRequestDto.getAccountType());
+    }
+
+    public ServiceGetBoardRequestDto(Long boardId,ClientMemberRequestDto clientMemberRequestDto) {
+        this.memberId = clientMemberRequestDto.getMemberId();
+        this.boardId = boardId;
+        this.accountType = getAccountType(clientMemberRequestDto.getAccountType());
+
+    }
+
+    private AccountType getAccountType(String accountType){
+        switch (accountType){
+            case "Realtor" : return AccountType.Realtor;
+            case "Lessor" : return AccountType.Lessor;
+            case "Lessee" : return AccountType.Lessee;
+            default: return AccountType.externalUser;
         }
     }
 }
