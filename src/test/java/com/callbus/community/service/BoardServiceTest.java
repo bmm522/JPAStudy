@@ -4,6 +4,7 @@ import com.callbus.community.controller.dto.request.ClientBoardUpdateRequestDto;
 import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
 import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
 import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
+import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
 import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
@@ -65,11 +66,11 @@ public class BoardServiceTest {
         when(memberRepository.findByMemberId(any())).thenReturn(member);
         when(boardRepository.save(any())).thenReturn(board);
 
-        ClientCommonResponseDto<?> clientCommonResponseDto = boardService.saveBoard(serviceBoardSaveRequestDto);
+        ServiceBoardSaveResponseDto serviceBoardSaveResponseDto = boardService.saveBoard(serviceBoardSaveRequestDto);
 
 
-        assertThat(clientCommonResponseDto.getCode()).isEqualTo(1);
-        assertThat(clientCommonResponseDto.getMsg()).isEqualTo("글 저장 성공");
+        assertThat(serviceBoardSaveResponseDto.getTitle()).isEqualTo("글 작성 서비스 단 테스트 제목");
+        assertThat(serviceBoardSaveResponseDto.getNickname()).isEqualTo("김지인");
 
     }
 
@@ -103,10 +104,10 @@ public class BoardServiceTest {
 
         when(boardRepository.findByBoardId(serviceBoardUpdateReqeustDto.getBoardId())).thenReturn(Optional.of(board));
 
-        ClientCommonResponseDto<?> clientCommonResponseDto = boardService.updateBoard(serviceBoardUpdateReqeustDto);
+       ServiceBoardUpdateResponseDto serviceBoardUpdateResponseDto = boardService.updateBoard(serviceBoardUpdateReqeustDto);
 
-        assertThat(clientCommonResponseDto.getCode()).isEqualTo(1);
-        assertThat(clientCommonResponseDto.getMsg()).isEqualTo("글 수정 성공");
+        assertThat(serviceBoardUpdateResponseDto.getBoardId()).isEqualTo(1);
+        assertThat(serviceBoardUpdateResponseDto.getTitle()).isEqualTo("글 수정 서비스 단 변경 후 제목");
 
     }
 

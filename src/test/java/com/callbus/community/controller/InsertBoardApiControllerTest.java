@@ -1,6 +1,7 @@
 package com.callbus.community.controller;
 
 import com.callbus.community.controller.dto.request.ClientBoardSaveRequestDto;
+import com.callbus.community.controller.dto.response.Code;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.AccountType;
 import com.callbus.community.domain.util.Status;

@@ -31,7 +31,7 @@ public class BoardServiceImpl implements BoardService {
     // 글 저장
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ClientCommonResponseDto<?> saveBoard(ServiceBoardSaveRequestDto serviceBoardSaveRequestDto){
+    public ServiceBoardSaveResponseDto saveBoard(ServiceBoardSaveRequestDto serviceBoardSaveRequestDto){
 
         Optional<Member> member = Optional.of(memberRepository.findByMemberId(serviceBoardSaveRequestDto.getMemberId())
                 .orElseThrow(()->new RuntimeException("해당 회원의 정보를 찾을 수 없습니다.")));
@@ -39,39 +39,31 @@ public class BoardServiceImpl implements BoardService {
         Board board = serviceBoardSaveRequestDto.toEntity();
         board.addMember(member.get());
 
-        ServiceBoardSaveResponseDto serviceBoardSaveResponseDto = boardRepository.save(board).toSaveDto();
-
-        return ClientCommonResponseDto.builder().code(1).msg("글 저장 성공").body(serviceBoardSaveResponseDto).build();
-
+       return boardRepository.save(board).toSaveDto();
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ClientCommonResponseDto<?> updateBoard(ServiceBoardUpdateReqeustDto serviceBoardUpdateReqeustDto) {
+    public ServiceBoardUpdateResponseDto updateBoard(ServiceBoardUpdateReqeustDto serviceBoardUpdateReqeustDto) {
 
         Optional<Board> boardOptional = getOptionalBoard(serviceBoardUpdateReqeustDto.getBoardId());
 
         Board board = boardOptional.get().update(serviceBoardUpdateReqeustDto.getTitle(), serviceBoardUpdateReqeustDto.getContent(), serviceBoardUpdateReqeustDto.getUpdateDate());
 
-        ServiceBoardUpdateResponseDto serviceBoardUpdateResponseDto = board.toUpdateDto();
-
-        return ClientCommonResponseDto.builder().code(1).msg("글 수정 성공").body(serviceBoardUpdateResponseDto).build();
-
+        return board.toUpdateDto();
     }
 
 
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ClientCommonResponseDto<?> deleteBoard(Long boardId) {
+    public ServiceBoardDeleteResponseDto deleteBoard(Long boardId) {
 
         Optional<Board> boardOptional = getOptionalBoard(boardId);
 
         Board board = boardOptional.get().delete(LocalDateTime.now(), Status.N);
 
-        ServiceBoardDeleteResponseDto serviceBoardDeleteResponseDto = board.toDeleteDto();
-
-        return ClientCommonResponseDto.builder().code(1).msg("글 삭제 성공").body(serviceBoardDeleteResponseDto).build();
+       return  board.toDeleteDto();
     }
 
     private Optional<Board> getOptionalBoard(Long boardId) {
