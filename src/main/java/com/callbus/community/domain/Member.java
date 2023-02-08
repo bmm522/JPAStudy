@@ -41,7 +41,7 @@ public class Member {
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Like> likes = new ArrayList<>();
+    private List<Like> Likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Reply> replies = new ArrayList<>();
