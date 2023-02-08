@@ -4,14 +4,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 public class ClientLikeSaveRequestDto {
 
-    private Long boardId;
+    private String boardId;
 
     @Builder // Test용 생성자
-    public ClientLikeSaveRequestDto(Long boardId){
+    public ClientLikeSaveRequestDto(String boardId){
         this.boardId = boardId;
+    }
+
+    public ClientLikeSaveRequestDto(){}
+
+    public Long getBoardId(){
+        return Long.parseLong(boardId);
     }
 }

@@ -100,7 +100,7 @@ public class InsertBoardApiControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(code).isEqualTo(-1);
-        assertThat(msg).isEqualTo("글 권한이 없는 회원입니다.");
+        assertThat(msg).isEqualTo("권한이 없는 회원입니다.");
         assertThat(resultBody).isEqualTo(null);
     }
 

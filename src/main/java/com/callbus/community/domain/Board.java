@@ -46,22 +46,11 @@ public class Board extends BaseTimeEntity {
     private Member member;
 
     @OneToMany(mappedBy = "board")
-    private List<Like> Likes;
+    private List<Like> likes;
 
     @OneToMany(mappedBy = "board")
     private List<Reply> reply;
 
-//    @Builder
-//    public Board(Long boardId, String title, String content, Integer hit, LocalDateTime createDate,LocalDateTime updateDate,LocalDateTime deleteDate, Status status) {
-//        this.boardId = boardId;
-//        this.title = title;
-//        this.content = content;
-//        this.hit = hit;
-//        super.createDate = createDate;
-//        super.updateDate = updateDate;
-//        this.deleteDate = deleteDate;
-//        this.status = status;
-//    }
     @Builder
     public Board(Long boardId,String title, String content, Status status){
         this.boardId = boardId;
@@ -78,11 +67,6 @@ public class Board extends BaseTimeEntity {
         this.hit = hit;
         this.deleteDate = null;
         this.status = status;
-    }
-
-    public void addMember(Member member){
-        this.member = member;
-        member.addBoard(this);
     }
 
 
@@ -135,6 +119,20 @@ public class Board extends BaseTimeEntity {
         this.status = status;
         return this;
     }
+
+    public void addMember(Member member){
+        this.member = member;
+        member.addBoard(this);
+    }
+
+    public void addLike(Like like){
+        this.likes.add(like);
+        if(like.getBoard() != this){
+            like.addBoard(this);
+        }
+    }
+
+
 
 
 }

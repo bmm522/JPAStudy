@@ -16,7 +16,7 @@ public class ServiceBoardUpdateReqeustDto {
 
     private String content;
 
-    private LocalDateTime updateDate = LocalDateTime.now();
+    private LocalDateTime updateDate;
 
     public Board toEntity(){
         return  Board.builder()

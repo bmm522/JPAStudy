@@ -41,7 +41,7 @@ public class Member {
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Like> Likes = new ArrayList<>();
+    private List<Like> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Reply> replies = new ArrayList<>();
@@ -63,6 +63,13 @@ public class Member {
         this.boards.add(board);
         if(board.getMember() != this){
             board.addMember(this);
+        }
+    }
+
+    public void addLike(Like like) {
+        this.likes.add(like);
+        if(like.getMember() != this){
+            like.addMember(this);
         }
     }
 }
