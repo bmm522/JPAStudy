@@ -2,7 +2,7 @@ package com.callbus.community.service;
 
 import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
 import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
-import com.callbus.community.service.dto.request.ServiceLikeSaveReqeustDto;
+import com.callbus.community.service.dto.request.ServiceLikeReqeustDto;
 import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
 import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
 import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
@@ -16,5 +16,7 @@ public interface BoardService {
 
     public ServiceBoardDeleteResponseDto deleteBoard(Long boardId);
 
-    public ServiceLikeResponseDto saveLike(ServiceLikeSaveReqeustDto serviceLikeSaveReqeustDto);
+    public ServiceLikeResponseDto saveLike(ServiceLikeReqeustDto serviceLikeReqeustDto);
+
+    public ServiceLikeResponseDto cancleLike(ServiceLikeReqeustDto serviceLikeReqeustDto);
 }

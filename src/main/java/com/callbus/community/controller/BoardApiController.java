@@ -9,7 +9,7 @@ import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
 import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
 import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
 import com.callbus.community.service.BoardService;
-import com.callbus.community.service.dto.request.ServiceLikeSaveReqeustDto;
+import com.callbus.community.service.dto.request.ServiceLikeReqeustDto;
 import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
 import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
 import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
@@ -31,9 +31,7 @@ public class BoardApiController {
     // 글 저장
     @PostMapping("/api/v1/community/board")
     public ResponseEntity<?> saveBoard(@RequestBody @Valid ClientBoardSaveRequestDto clientBoardSaveRequestDto, BindingResult bindingResult , @RequestAttribute("memberReqDto") ClientMemberRequestDto clientMemberRequestDto){
-
         checkMemberAuthority(clientMemberRequestDto);
-
         ServiceBoardSaveRequestDto serviceBoardSaveRequestDto = new ServiceBoardSaveRequestDto(clientBoardSaveRequestDto, clientMemberRequestDto);
         ServiceBoardSaveResponseDto serviceBoardSaveResponseDto = boardService.saveBoard(serviceBoardSaveRequestDto);
         return new ResponseEntity<>(ClientCommonResponseDto.builder().code(Code.SUCCESS.getCode()).msg("글 저장 성공").body(serviceBoardSaveResponseDto).build(), HttpStatus.CREATED);
@@ -41,15 +39,30 @@ public class BoardApiController {
 
      // 글 목록에서의 좋아요
     @PostMapping("/api/v1/community/boards/like")
-    public ResponseEntity<?> saveHeartOnBoards(@RequestBody ClientLikeSaveRequestDto clientLikeSaveRequestDto, @RequestAttribute("memberReqDto") ClientMemberRequestDto clientMemberRequestDto){
-        System.out.println(clientLikeSaveRequestDto.getBoardId());
-        System.out.println(clientMemberRequestDto.getMemberId());
+    public ResponseEntity<?> saveLikeOnBoards(@RequestBody ClientLikeSaveRequestDto clientLikeSaveRequestDto, @RequestAttribute("memberReqDto") ClientMemberRequestDto clientMemberRequestDto){
         checkMemberAuthority(clientMemberRequestDto);
-
-        ServiceLikeSaveReqeustDto serviceLikeSaveReqeustDto = new ServiceLikeSaveReqeustDto(clientLikeSaveRequestDto, clientMemberRequestDto);
-        ServiceLikeResponseDto serviceLikeResponseDto =  boardService.saveLike(serviceLikeSaveReqeustDto);
-
+        ServiceLikeReqeustDto serviceLikeReqeustDto = new ServiceLikeReqeustDto(clientLikeSaveRequestDto, clientMemberRequestDto);
+        ServiceLikeResponseDto serviceLikeResponseDto =  boardService.saveLike(serviceLikeReqeustDto);
         return new ResponseEntity<>(ClientCommonResponseDto.builder().code(Code.SUCCESS.getCode()).msg("좋아요 성공").body(serviceLikeResponseDto).build(), HttpStatus.CREATED);
+    }
+
+    // 글 한건 보기에서의 좋아요
+    @PostMapping("/api/v1/community/board/like/{boardId}")
+    public ResponseEntity<?> saveLikeOnBoard(@PathVariable Long boardId, @RequestAttribute("memberReqDto") ClientMemberRequestDto clientMemberRequestDto){
+        checkMemberAuthority(clientMemberRequestDto);
+        ServiceLikeReqeustDto serviceLikeReqeustDto = new ServiceLikeReqeustDto(boardId, clientMemberRequestDto);
+        ServiceLikeResponseDto serviceLikeResponseDto =  boardService.saveLike(serviceLikeReqeustDto);
+        return new ResponseEntity<>(ClientCommonResponseDto.builder().code(Code.SUCCESS.getCode()).msg("좋아요 성공").body(serviceLikeResponseDto).build(), HttpStatus.CREATED);
+    }
+
+    // 글 목록에서의 좋아요 취소
+    @DeleteMapping("/api/v1/community/boards/like")
+    public ResponseEntity<?> cancleLikeOnBoards(@RequestBody ClientLikeSaveRequestDto clientLikeSaveRequestDto, @RequestAttribute("memberReqDto") ClientMemberRequestDto clientMemberRequestDto){
+        checkMemberAuthority(clientMemberRequestDto);
+        ServiceLikeReqeustDto serviceLikeReqeustDto = new ServiceLikeReqeustDto(clientLikeSaveRequestDto, clientMemberRequestDto);
+        ServiceLikeResponseDto serviceLikeResponseDto = boardService.cancleLike(serviceLikeReqeustDto);
+        return new ResponseEntity<>(ClientCommonResponseDto.builder().code(Code.SUCCESS.getCode()).msg("좋아요 취소 성공").body(serviceLikeResponseDto).build(),HttpStatus.OK);
+
     }
 
     // 글 수정

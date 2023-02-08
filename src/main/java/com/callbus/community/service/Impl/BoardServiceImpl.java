@@ -4,7 +4,7 @@ import com.callbus.community.domain.Like;
 import com.callbus.community.repository.LikeRepository;
 import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
 import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
-import com.callbus.community.service.dto.request.ServiceLikeSaveReqeustDto;
+import com.callbus.community.service.dto.request.ServiceLikeReqeustDto;
 import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
 import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
 import com.callbus.community.domain.Board;
@@ -42,6 +42,7 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.save(board).toSaveDto();
     }
 
+    // 글 수정
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public ServiceBoardUpdateResponseDto updateBoard(ServiceBoardUpdateReqeustDto dto) {
@@ -50,6 +51,7 @@ public class BoardServiceImpl implements BoardService {
         return AfterModificationBoard.toUpdateDto();
     }
 
+    // 글 삭제
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public ServiceBoardDeleteResponseDto deleteBoard(Long boardId) {
@@ -57,19 +59,39 @@ public class BoardServiceImpl implements BoardService {
         return board.delete(LocalDateTime.now(), Status.N).toDeleteDto();
     }
 
+    // 좋아요
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceLikeResponseDto saveLike(ServiceLikeSaveReqeustDto dto) {
-        if(!likeRepository.findByBoardIdAndMemberId(dto.getBoardId(), dto.getMemberId()).isPresent()){
+    public ServiceLikeResponseDto saveLike(ServiceLikeReqeustDto dto) {
+
+        if(!checkAlreadyExistLike(dto.getBoardId(), dto.getMemberId())){
+
             Like like =dto.toEntity();
             Board board = getOptionalBoard(dto.getBoardId()).get();
             like.addBoard(board);
             like.addMember(getOptionalMember(dto.getMemberId()).get());
+
             return likeRepository.save(like).toDto(board);
-        } else {
-            throw new RuntimeException("이미 좋아요를 누른 글 입니다.");
         }
 
+        throw new RuntimeException("이미 좋아요를 누른 글 입니다.");
+
+
+    }
+
+    // 좋아요 취소
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public ServiceLikeResponseDto cancleLike(ServiceLikeReqeustDto dto) {
+        Optional<Like> likeOp = getOptionalLike(dto.getBoardId(), dto.getMemberId());
+
+        if(likeOp.isPresent()){
+            Like like = likeOp.get();
+            likeRepository.deleteByLikeId(like.getLikeId());
+            return like.toDto(like.getBoard());
+        }
+
+        throw new RuntimeException("좋아요 하지 않은 글 입니다.");
     }
 
     private Optional<Board> getOptionalBoard(Long boardId) {
@@ -81,6 +103,16 @@ public class BoardServiceImpl implements BoardService {
         return Optional.of(memberRepository.findByMemberId(memberId)
                 .orElseThrow(()->new RuntimeException("해당 회원의 정보를 찾을 수 없습니다.")));
     }
+
+
+    private Optional<Like> getOptionalLike(Long boardId, Long memberId){
+        return likeRepository.findByBoardIdAndMemberId(boardId, memberId);
+    }
+
+    private boolean checkAlreadyExistLike(Long boardId, Long memberId){
+        return getOptionalLike(boardId, memberId).isPresent();
+    }
+
 
 
 }

@@ -6,13 +6,18 @@ import com.callbus.community.domain.Like;
 import lombok.Getter;
 
 @Getter
-public class ServiceLikeSaveReqeustDto {
+public class ServiceLikeReqeustDto {
 
     private Long boardId;
     private Long memberId;
 
-    public ServiceLikeSaveReqeustDto(ClientLikeSaveRequestDto clientLikeSaveRequestDto, ClientMemberRequestDto clientMemberRequestDto){
+    public ServiceLikeReqeustDto(ClientLikeSaveRequestDto clientLikeSaveRequestDto, ClientMemberRequestDto clientMemberRequestDto){
         this.boardId = clientLikeSaveRequestDto.getBoardId();
+        this.memberId = clientMemberRequestDto.getMemberId();
+    }
+
+    public ServiceLikeReqeustDto(Long boardId, ClientMemberRequestDto clientMemberRequestDto ){
+        this.boardId = boardId;
         this.memberId = clientMemberRequestDto.getMemberId();
     }
 

@@ -4,9 +4,11 @@ import com.callbus.community.service.dto.response.ServiceLikeResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -20,8 +22,8 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
 
-    @CreatedDate
-    private LocalDateTime likeCreateDate;
+    @CreationTimestamp
+    private Timestamp likeCreateDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "board_id")
