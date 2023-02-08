@@ -19,4 +19,6 @@ public interface BoardService {
     public ServiceLikeResponseDto cancleLike(ServiceLikeReqeustDto serviceLikeReqeustDto);
 
     public ServiceGetBoardListResponseDto getBoardList(ServiceGetBoardRequestDto serviceGetBoardRequestDto);
+
+    public ServiceGetBoardResponseDto getBoardDetails(ServiceGetBoardRequestDto serviceGetBoardRequestDto);
 }

@@ -44,12 +44,25 @@ public class BoardServiceImpl implements BoardService {
 
     // 글 목록 보기
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public ServiceGetBoardListResponseDto getBoardList(ServiceGetBoardRequestDto serviceGetBoardRequestDto) {
         Long targetMemberId = serviceGetBoardRequestDto.getMemberId();
         List<ServiceGetBoardResponseDto> boardDtos = boardRepository.findByStatus(Status.Y).stream()
                 .map((board) -> board.toGetDto(targetMemberId))
                 .collect(Collectors.toList());
         return ServiceGetBoardListResponseDto.builder().serviceGetBoardResponseDtos(boardDtos).build();
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public ServiceGetBoardResponseDto getBoardDetails(ServiceGetBoardRequestDto serviceGetBoardRequestDto) {
+        Optional<Board> boardOp = boardRepository.findByBoardId(serviceGetBoardRequestDto.getBoardId());
+        if (boardOp.isPresent()){
+            Board board = boardOp.get();
+            board.updateHit(board.getHit());
+            return board.toGetDto(serviceGetBoardRequestDto.getMemberId());
+        }
+        throw new RuntimeException("없는 글 입니다.");
     }
 
     // 글 수정

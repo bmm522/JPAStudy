@@ -142,6 +142,11 @@ public class Board extends BaseTimeEntity {
         return this;
     }
 
+    public Board updateHit(Integer hit) {
+        this.hit = hit+1;
+        return this;
+    }
+
     public Board delete(LocalDateTime deleteDate, Status status) {
         this.deleteDate = deleteDate;
         this.status = status;
