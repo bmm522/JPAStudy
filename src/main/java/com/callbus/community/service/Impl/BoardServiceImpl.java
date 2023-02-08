@@ -2,25 +2,25 @@ package com.callbus.community.service.Impl;
 
 import com.callbus.community.domain.Like;
 import com.callbus.community.repository.LikeRepository;
-import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
-import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
+import com.callbus.community.service.dto.request.ServiceGetBoardRequestDto;
+import com.callbus.community.service.dto.request.ServiceSaveBoardRequestDto;
+import com.callbus.community.service.dto.request.ServiceUpdateBoardReqeustDto;
 import com.callbus.community.service.dto.request.ServiceLikeReqeustDto;
-import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
-import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
+import com.callbus.community.service.dto.response.*;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.Status;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.callbus.community.service.BoardService;
-import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
-import com.callbus.community.service.dto.response.ServiceLikeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,16 +36,26 @@ public class BoardServiceImpl implements BoardService {
     // 글 저장
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceBoardSaveResponseDto saveBoard(ServiceBoardSaveRequestDto dto){
+    public ServiceSaveBoardResponseDto saveBoard(ServiceSaveBoardRequestDto dto){
         Board board =dto.toEntity();
         board.addMember(getOptionalMember(dto.getMemberId()).get());
         return boardRepository.save(board).toSaveDto();
     }
 
+    // 글 목록 보기
+    @Override
+    public ServiceGetBoardListResponseDto getBoardList(ServiceGetBoardRequestDto serviceGetBoardRequestDto) {
+        Long targetMemberId = serviceGetBoardRequestDto.getMemberId();
+        List<ServiceGetBoardResponseDto> boardDtos = boardRepository.findByStatus(Status.Y).stream()
+                .map((board) -> board.toGetDto(targetMemberId))
+                .collect(Collectors.toList());
+        return ServiceGetBoardListResponseDto.builder().serviceGetBoardResponseDtos(boardDtos).build();
+    }
+
     // 글 수정
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceBoardUpdateResponseDto updateBoard(ServiceBoardUpdateReqeustDto dto) {
+    public ServiceUpdateBoardResponseDto updateBoard(ServiceUpdateBoardReqeustDto dto) {
         Board beforeModificationBoard = getOptionalBoard(dto.getBoardId()).get();
         Board AfterModificationBoard = beforeModificationBoard.update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
         return AfterModificationBoard.toUpdateDto();
@@ -54,7 +64,7 @@ public class BoardServiceImpl implements BoardService {
     // 글 삭제
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceBoardDeleteResponseDto deleteBoard(Long boardId) {
+    public ServiceDeleteBoardResponseDto deleteBoard(Long boardId) {
         Board board = getOptionalBoard(boardId).get();
         return board.delete(LocalDateTime.now(), Status.N).toDeleteDto();
     }
@@ -93,6 +103,7 @@ public class BoardServiceImpl implements BoardService {
 
         throw new RuntimeException("좋아요 하지 않은 글 입니다.");
     }
+
 
     private Optional<Board> getOptionalBoard(Long boardId) {
         return  Optional.of(boardRepository.findByBoardId(boardId)

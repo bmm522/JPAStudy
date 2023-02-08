@@ -1,11 +1,9 @@
 package com.callbus.community.service;
 
-import com.callbus.community.controller.dto.request.ClientBoardUpdateRequestDto;
-import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
-import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
-import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
-import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
-import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
+import com.callbus.community.service.dto.request.ServiceSaveBoardRequestDto;
+import com.callbus.community.service.dto.request.ServiceUpdateBoardReqeustDto;
+import com.callbus.community.service.dto.response.ServiceSaveBoardResponseDto;
+import com.callbus.community.service.dto.response.ServiceUpdateBoardResponseDto;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.AccountType;
@@ -23,7 +21,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -52,25 +49,25 @@ public class BoardServiceTest {
                 .status(Status.Y)
                 .build());
 
-        ServiceBoardSaveRequestDto serviceBoardSaveRequestDto = ServiceBoardSaveRequestDto.builder()
+        ServiceSaveBoardRequestDto serviceSaveBoardRequestDto = ServiceSaveBoardRequestDto.builder()
                 .title("글 작성 서비스 단 테스트 제목")
                 .content("글 작성 서비스 단 테스트 내용")
                 .memberId(1L)
                 .accountType("Realtor")
                 .build();
 
-        Board board = serviceBoardSaveRequestDto.toEntity();
+        Board board = serviceSaveBoardRequestDto.toEntity();
         board.addMember(member.get());
 
 
         when(memberRepository.findByMemberId(any())).thenReturn(member);
         when(boardRepository.save(any())).thenReturn(board);
 
-        ServiceBoardSaveResponseDto serviceBoardSaveResponseDto = boardService.saveBoard(serviceBoardSaveRequestDto);
+        ServiceSaveBoardResponseDto serviceSaveBoardResponseDto = boardService.saveBoard(serviceSaveBoardRequestDto);
 
 
-        assertThat(serviceBoardSaveResponseDto.getTitle()).isEqualTo("글 작성 서비스 단 테스트 제목");
-        assertThat(serviceBoardSaveResponseDto.getNickname()).isEqualTo("김지인");
+        assertThat(serviceSaveBoardResponseDto.getTitle()).isEqualTo("글 작성 서비스 단 테스트 제목");
+        assertThat(serviceSaveBoardResponseDto.getNickname()).isEqualTo("김지인");
 
     }
 
@@ -80,7 +77,7 @@ public class BoardServiceTest {
     @DisplayName("서비스단 글 수정 테스트")
     public void updateBoardTest(){
 
-        ServiceBoardUpdateReqeustDto serviceBoardUpdateReqeustDto = ServiceBoardUpdateReqeustDto.builder()
+        ServiceUpdateBoardReqeustDto serviceUpdateBoardReqeustDto = ServiceUpdateBoardReqeustDto.builder()
                 .boardId(1L)
                 .title("글 수정 서비스 단 변경 후 제목")
                 .content("글 수정 서비스 단 변경 후 내용")
@@ -102,12 +99,12 @@ public class BoardServiceTest {
 
         board.addMember(member.get());
 
-        when(boardRepository.findByBoardId(serviceBoardUpdateReqeustDto.getBoardId())).thenReturn(Optional.of(board));
+        when(boardRepository.findByBoardId(serviceUpdateBoardReqeustDto.getBoardId())).thenReturn(Optional.of(board));
 
-       ServiceBoardUpdateResponseDto serviceBoardUpdateResponseDto = boardService.updateBoard(serviceBoardUpdateReqeustDto);
+       ServiceUpdateBoardResponseDto serviceUpdateBoardResponseDto = boardService.updateBoard(serviceUpdateBoardReqeustDto);
 
-        assertThat(serviceBoardUpdateResponseDto.getBoardId()).isEqualTo(1);
-        assertThat(serviceBoardUpdateResponseDto.getTitle()).isEqualTo("글 수정 서비스 단 변경 후 제목");
+        assertThat(serviceUpdateBoardResponseDto.getBoardId()).isEqualTo(1);
+        assertThat(serviceUpdateBoardResponseDto.getTitle()).isEqualTo("글 수정 서비스 단 변경 후 제목");
 
     }
 

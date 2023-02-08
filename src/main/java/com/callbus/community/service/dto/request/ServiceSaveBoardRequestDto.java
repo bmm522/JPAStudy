@@ -1,14 +1,13 @@
 package com.callbus.community.service.dto.request;
 
-import com.callbus.community.controller.dto.request.ClientBoardSaveRequestDto;
+import com.callbus.community.controller.dto.request.ClientSaveBoardRequestDto;
 import com.callbus.community.controller.dto.request.ClientMemberRequestDto;
 import com.callbus.community.domain.Board;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-public class ServiceBoardSaveRequestDto {
+public class ServiceSaveBoardRequestDto {
 
     private String title;
 
@@ -25,7 +24,7 @@ public class ServiceBoardSaveRequestDto {
                 .build();
     }
     @Builder
-    public ServiceBoardSaveRequestDto(String title, String content, Long memberId, String accountType){
+    public ServiceSaveBoardRequestDto(String title, String content, Long memberId, String accountType){
         this.title = title;
         this.content = content;
         this.memberId = memberId;
@@ -33,9 +32,9 @@ public class ServiceBoardSaveRequestDto {
     }
 
 
-    public ServiceBoardSaveRequestDto(ClientBoardSaveRequestDto clientBoardSaveRequestDto, ClientMemberRequestDto clientMemberRequestDto){
-        this.title = clientBoardSaveRequestDto.getTitle();
-        this.content = clientBoardSaveRequestDto.getContent();
+    public ServiceSaveBoardRequestDto(ClientSaveBoardRequestDto clientSaveBoardRequestDto, ClientMemberRequestDto clientMemberRequestDto){
+        this.title = clientSaveBoardRequestDto.getTitle();
+        this.content = clientSaveBoardRequestDto.getContent();
         this.memberId = clientMemberRequestDto.getMemberId();
         this.accountType = clientMemberRequestDto.getAccountType();
     }

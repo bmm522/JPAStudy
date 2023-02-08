@@ -25,7 +25,7 @@ public class Like {
     @CreationTimestamp
     private Timestamp likeCreateDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
