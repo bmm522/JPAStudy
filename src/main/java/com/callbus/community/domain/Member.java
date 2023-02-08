@@ -65,4 +65,11 @@ public class Member {
             board.addMember(this);
         }
     }
+
+    public void addLike(Like like) {
+        this.likes.add(like);
+        if(like.getMember() != this){
+            like.addMember(this);
+        }
+    }
 }

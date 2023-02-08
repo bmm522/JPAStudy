@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 public class ClientLikeSaveRequestDto {
 
@@ -13,5 +12,11 @@ public class ClientLikeSaveRequestDto {
     @Builder // Test용 생성자
     public ClientLikeSaveRequestDto(Long boardId){
         this.boardId = boardId;
+    }
+
+    public ClientLikeSaveRequestDto(){}
+
+    public Long getBoardId(){
+        return boardId;
     }
 }

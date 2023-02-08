@@ -1,17 +1,22 @@
 package com.callbus.community.service;
 
-import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
-import com.callbus.community.service.dto.request.ServiceBoardSaveRequestDto;
-import com.callbus.community.service.dto.request.ServiceBoardUpdateReqeustDto;
-import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
-import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
-import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
+import com.callbus.community.service.dto.request.ServiceGetBoardRequestDto;
+import com.callbus.community.service.dto.request.ServiceSaveBoardRequestDto;
+import com.callbus.community.service.dto.request.ServiceUpdateBoardReqeustDto;
+import com.callbus.community.service.dto.request.ServiceLikeReqeustDto;
+import com.callbus.community.service.dto.response.*;
 
 public interface BoardService {
 
-    public ServiceBoardSaveResponseDto saveBoard(ServiceBoardSaveRequestDto serviceBoardSaveRequestDto);
+    public ServiceSaveBoardResponseDto saveBoard(ServiceSaveBoardRequestDto serviceSaveBoardRequestDto);
 
-    public ServiceBoardUpdateResponseDto updateBoard(ServiceBoardUpdateReqeustDto serviceBoardUpdateReqeustDto);
+    public ServiceUpdateBoardResponseDto updateBoard(ServiceUpdateBoardReqeustDto serviceUpdateBoardReqeustDto);
 
-    public ServiceBoardDeleteResponseDto deleteBoard(Long boardId);
+    public ServiceDeleteBoardResponseDto deleteBoard(Long boardId);
+
+    public ServiceLikeResponseDto saveLike(ServiceLikeReqeustDto serviceLikeReqeustDto);
+
+    public ServiceLikeResponseDto cancleLike(ServiceLikeReqeustDto serviceLikeReqeustDto);
+
+    public ServiceGetBoardListResponseDto getBoardList(ServiceGetBoardRequestDto serviceGetBoardRequestDto);
 }

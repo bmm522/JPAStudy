@@ -1,6 +1,6 @@
 package com.callbus.community.controller;
 
-import com.callbus.community.controller.dto.request.ClientBoardUpdateRequestDto;
+import com.callbus.community.controller.dto.request.ClientUpdateBoardRequestDto;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,13 +48,13 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardSuccess() throws JsonProcessingException {
 
         Long boardId = 1L;
-        ClientBoardUpdateRequestDto clientBoardUpdateRequestDto = ClientBoardUpdateRequestDto.builder()
+        ClientUpdateBoardRequestDto clientUpdateBoardRequestDto = ClientUpdateBoardRequestDto.builder()
                 .title("글 수정 후 제목 테스트")
                 .content("글 수정 후 내용 테스트")
                 .build();
 
         headers.set("Authentication", " Realtor 1");
-        String body = objectMapper.writeValueAsString(clientBoardUpdateRequestDto);
+        String body = objectMapper.writeValueAsString(clientUpdateBoardRequestDto);
 
         ResponseEntity<String> response = exchange(boardId, body);
 
@@ -77,7 +77,7 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardWhenInvalid() throws JsonProcessingException {
 
         Long boardId = 1L;
-        ClientBoardUpdateRequestDto boardupdateRequestDtoClient = ClientBoardUpdateRequestDto.builder()
+        ClientUpdateBoardRequestDto boardupdateRequestDtoClient = ClientUpdateBoardRequestDto.builder()
                 .title("글 수정 후 제목 테스트글 수정 후 제목 테스트글 " +
                         "수정 후 제목 테스트글 수정 후 제목 테스트글 수정 " +
                         "후 제목 테스트글 수정 후 제목 테스트글 수정 " +
@@ -108,13 +108,13 @@ public class UpdateBoardApiControllerTest {
     public void testUpdateBoardWrongBoardId() throws JsonProcessingException {
 
         Long boardId = 5L;
-        ClientBoardUpdateRequestDto clientBoardUpdateRequestDto = ClientBoardUpdateRequestDto.builder()
+        ClientUpdateBoardRequestDto clientUpdateBoardRequestDto = ClientUpdateBoardRequestDto.builder()
                 .title("글 수정 후 제목 테스트")
                 .content("글 수정 후 내용 테스트")
                 .build();
 
         headers.set("Authentication", " Realtor 1");
-        String body = objectMapper.writeValueAsString(clientBoardUpdateRequestDto);
+        String body = objectMapper.writeValueAsString(clientUpdateBoardRequestDto);
 
         ResponseEntity<String> response = exchange(boardId, body);
 

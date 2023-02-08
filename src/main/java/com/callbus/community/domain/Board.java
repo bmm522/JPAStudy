@@ -1,8 +1,11 @@
 package com.callbus.community.domain;
 
-import com.callbus.community.service.dto.response.ServiceBoardDeleteResponseDto;
-import com.callbus.community.service.dto.response.ServiceBoardSaveResponseDto;
-import com.callbus.community.service.dto.response.ServiceBoardUpdateResponseDto;
+import com.callbus.community.common.DateFormatter;
+import com.callbus.community.domain.util.AccountType;
+import com.callbus.community.service.dto.response.ServiceDeleteBoardResponseDto;
+import com.callbus.community.service.dto.response.ServiceGetBoardResponseDto;
+import com.callbus.community.service.dto.response.ServiceSaveBoardResponseDto;
+import com.callbus.community.service.dto.response.ServiceUpdateBoardResponseDto;
 import com.callbus.community.domain.util.BaseTimeEntity;
 import com.callbus.community.domain.util.Status;
 import lombok.AllArgsConstructor;
@@ -41,27 +44,16 @@ public class Board extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="memberId")
     private Member member;
 
     @OneToMany(mappedBy = "board")
-    private List<Like> like;
+    private List<Like> likes;
 
     @OneToMany(mappedBy = "board")
     private List<Reply> reply;
 
-//    @Builder
-//    public Board(Long boardId, String title, String content, Integer hit, LocalDateTime createDate,LocalDateTime updateDate,LocalDateTime deleteDate, Status status) {
-//        this.boardId = boardId;
-//        this.title = title;
-//        this.content = content;
-//        this.hit = hit;
-//        super.createDate = createDate;
-//        super.updateDate = updateDate;
-//        this.deleteDate = deleteDate;
-//        this.status = status;
-//    }
     @Builder
     public Board(Long boardId,String title, String content, Status status){
         this.boardId = boardId;
@@ -80,14 +72,9 @@ public class Board extends BaseTimeEntity {
         this.status = status;
     }
 
-    public void addMember(Member member){
-        this.member = member;
-        member.addBoard(this);
-    }
 
-
-    public ServiceBoardSaveResponseDto toSaveDto(){
-        return ServiceBoardSaveResponseDto.builder()
+    public ServiceSaveBoardResponseDto toSaveDto(){
+        return ServiceSaveBoardResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)
@@ -98,8 +85,33 @@ public class Board extends BaseTimeEntity {
 
     }
 
-    public ServiceBoardUpdateResponseDto toUpdateDto(){
-        return ServiceBoardUpdateResponseDto.builder()
+    public ServiceGetBoardResponseDto toGetDto(Long targetMemberId){
+        return ServiceGetBoardResponseDto.builder()
+                .boardId(boardId)
+                .title(title)
+                .content(content)
+                .createDate(DateFormatter.getInstance().formatDate(createDate))
+                .updateDate((updateDate == null) ? "N" : DateFormatter.getInstance().formatDate(updateDate))
+                .writer(member.getNickname()+"("+ getAccountType(member.getAccountType())+")")
+                .memberId(member.getMemberId())
+                .hit(hit)
+                .likeCount(likes.size())
+                .targetMemberModificationPermission((member.getMemberId().equals(targetMemberId))?"Y":"N")
+                .targetMemberIsLike((checkTargetMemberIsLike(likes,targetMemberId))?"Y":"N")
+                .build();
+    }
+
+    private boolean checkTargetMemberIsLike(List<Like> likes,Long targetUserId) {
+        for(Like like : likes){
+            if(like.getMember().getMemberId().equals(targetUserId)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ServiceUpdateBoardResponseDto toUpdateDto(){
+        return ServiceUpdateBoardResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)
@@ -111,8 +123,8 @@ public class Board extends BaseTimeEntity {
 
     }
 
-    public ServiceBoardDeleteResponseDto toDeleteDto() {
-        return ServiceBoardDeleteResponseDto.builder()
+    public ServiceDeleteBoardResponseDto toDeleteDto() {
+        return ServiceDeleteBoardResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
                 .content(content)
@@ -135,6 +147,28 @@ public class Board extends BaseTimeEntity {
         this.status = status;
         return this;
     }
+
+    public void addMember(Member member){
+        this.member = member;
+        member.addBoard(this);
+    }
+
+    public void addLike(Like like){
+        this.likes.add(like);
+        if(like.getBoard() != this){
+            like.addBoard(this);
+        }
+    }
+
+    private String getAccountType(AccountType accountType){
+        switch (accountType){
+            case Realtor:return "공인중개사";
+            case Lessor:return "임대인";
+            case Lessee:return "임차인";
+            default: return null;
+        }
+    }
+
 
 
 }
