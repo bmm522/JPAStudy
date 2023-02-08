@@ -46,7 +46,7 @@ public class Board extends BaseTimeEntity {
     private Member member;
 
     @OneToMany(mappedBy = "board")
-    private List<Heart> heart;
+    private List<Like> like;
 
     @OneToMany(mappedBy = "board")
     private List<Reply> reply;
