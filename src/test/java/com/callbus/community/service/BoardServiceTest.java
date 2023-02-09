@@ -2,10 +2,7 @@ package com.callbus.community.service;
 
 import com.callbus.community.domain.Like;
 import com.callbus.community.repository.LikeRepository;
-import com.callbus.community.service.dto.request.ServiceGetBoardRequestDto;
-import com.callbus.community.service.dto.request.ServiceLikeReqeustDto;
-import com.callbus.community.service.dto.request.ServiceSaveBoardRequestDto;
-import com.callbus.community.service.dto.request.ServiceUpdateBoardReqeustDto;
+import com.callbus.community.service.dto.request.*;
 import com.callbus.community.service.dto.response.*;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
@@ -133,6 +130,7 @@ public class BoardServiceTest {
                 .boardId(1L)
                 .title("글 수정 서비스 단 변경 후 제목")
                 .content("글 수정 서비스 단 변경 후 내용")
+                .memberId(1L)
                 .build();
 
 
@@ -149,12 +147,15 @@ public class BoardServiceTest {
     @Sql("classpath:db/tableInit.sql")
     @DisplayName("서비스단 글 삭제 테스트")
     public void deleteBoardTest(){
-        Long boardId = 1L;
+        ServiceDeleteBoardRequestDto serviceDeleteBoardRequestDto = ServiceDeleteBoardRequestDto.builder()
+                .boardId(1L)
+                .memberId(1L)
+                .build();
         Board board = getBoardListForTest().get(0);
 
-        when(boardRepository.findByBoardId(boardId)).thenReturn(Optional.of(board));
+        when(boardRepository.findByBoardId(serviceDeleteBoardRequestDto.getBoardId())).thenReturn(Optional.of(board));
 
-        ServiceDeleteBoardResponseDto serviceDeleteBoardResponseDto = boardService.deleteBoard(boardId);
+        ServiceDeleteBoardResponseDto serviceDeleteBoardResponseDto = boardService.deleteBoard(serviceDeleteBoardRequestDto);
 
         assertThat(serviceDeleteBoardResponseDto.getBoardId()).isEqualTo(1);
         assertThat(board.getDeleteDate()).isNotNull();

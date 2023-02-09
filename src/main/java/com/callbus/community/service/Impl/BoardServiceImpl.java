@@ -2,10 +2,7 @@ package com.callbus.community.service.Impl;
 
 import com.callbus.community.domain.Like;
 import com.callbus.community.repository.LikeRepository;
-import com.callbus.community.service.dto.request.ServiceGetBoardRequestDto;
-import com.callbus.community.service.dto.request.ServiceSaveBoardRequestDto;
-import com.callbus.community.service.dto.request.ServiceUpdateBoardReqeustDto;
-import com.callbus.community.service.dto.request.ServiceLikeReqeustDto;
+import com.callbus.community.service.dto.request.*;
 import com.callbus.community.service.dto.response.*;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
@@ -71,16 +68,22 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(rollbackFor = RuntimeException.class)
     public ServiceUpdateBoardResponseDto updateBoard(ServiceUpdateBoardReqeustDto dto) {
         Board beforeModificationBoard = getOptionalBoard(dto.getBoardId()).get();
-        Board AfterModificationBoard = beforeModificationBoard.update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
-        return AfterModificationBoard.toUpdateDto();
+        if(beforeModificationBoard.getMember().getMemberId().equals(dto.getMemberId())) {
+            Board AfterModificationBoard = beforeModificationBoard.update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
+            return AfterModificationBoard.toUpdateDto();
+        }
+        throw new RuntimeException("해당 글의 주인이 아닙니다.");
     }
 
     // 글 삭제
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceDeleteBoardResponseDto deleteBoard(Long boardId) {
-        Board board = getOptionalBoard(boardId).get();
-        return board.delete(LocalDateTime.now(), Status.N).toDeleteDto();
+    public ServiceDeleteBoardResponseDto deleteBoard(ServiceDeleteBoardRequestDto dto) {
+        Board board = getOptionalBoard(dto.getBoardId()).get();
+        if(board.getMember().getMemberId().equals(dto.getMemberId())) {
+            return board.delete(LocalDateTime.now(), Status.N).toDeleteDto();
+        }
+        throw new RuntimeException("해당 글의 주인이 아닙니다.");
     }
 
     // 좋아요

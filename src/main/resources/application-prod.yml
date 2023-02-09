@@ -5,6 +5,9 @@ server:
       charset: utf-8
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}?autoReconnect=true&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
