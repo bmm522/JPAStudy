@@ -45,7 +45,6 @@ public class InsertBoardApiControllerTest {
                 .build();
         memberRepository.save(member);
     }
-
     @Test
     @DisplayName("정상적인 요청 글 저장 테스트")
     public void testSaveBoardSuccess() throws JsonProcessingException {
@@ -57,11 +56,7 @@ public class InsertBoardApiControllerTest {
         headers.set("Authentication", " Realtor 4");
         String body = objectMapper.writeValueAsString(clientSaveBoardRequestDto);
 
-        ResponseEntity<String> response = rt.postForEntity(
-                "/api/v1/community/board",
-                new HttpEntity<>(body, headers),
-                String.class
-        );
+        ResponseEntity<String> response = exchange(headers, body);
 
         DocumentContext dc = JsonPath.parse(response.getBody());
         Integer code = dc.read("$.code");
@@ -75,6 +70,7 @@ public class InsertBoardApiControllerTest {
 
     }
 
+
     @Test
     @DisplayName("헤더에 값이 없을 때 요청 글 저장 테스트")
     public void testSaveBoardWhenWithoutHeader() throws JsonProcessingException {
@@ -85,11 +81,7 @@ public class InsertBoardApiControllerTest {
 
         String body = objectMapper.writeValueAsString(clientSaveBoardRequestDto);
         headers.remove("Authentication");
-        ResponseEntity<String> response = rt.postForEntity(
-                "/api/v1/community/board",
-                new HttpEntity<>(body, headers),
-                String.class
-        );
+        ResponseEntity<String> response = exchange(headers, body);
 
         DocumentContext dc = JsonPath.parse(response.getBody());
         Integer code = dc.read("$.code");
@@ -118,11 +110,7 @@ public class InsertBoardApiControllerTest {
 
         String body = objectMapper.writeValueAsString(clientSaveBoardRequestDto);
 
-        ResponseEntity<String> response = rt.postForEntity(
-                "/api/v1/community/board",
-                new HttpEntity<>(body, headers),
-                String.class
-        );
+        ResponseEntity<String> response = exchange(headers, body);
 
         DocumentContext dc = JsonPath.parse(response.getBody());
         Integer code = dc.read("$.code");
@@ -138,4 +126,12 @@ public class InsertBoardApiControllerTest {
     }
 
 
+    private ResponseEntity<String> exchange(HttpHeaders headers, String body){
+        return rt.exchange(
+                "/api/v1/community/board",
+                HttpMethod.POST,
+                new HttpEntity<>(body, headers),
+                String.class
+        );
+    }
 }
