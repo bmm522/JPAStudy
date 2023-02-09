@@ -39,7 +39,7 @@ public class BoardRepositoryTest {
 
         Board checkData = boardRepository.save(board);
 
-        assertThat(checkData.getBoardId()).isEqualTo(3L);
+        assertThat(checkData.getBoardId()).isEqualTo(4L);
         assertThat(checkData.getTitle()).isEqualTo("글 작성 제목 테스트");
         assertThat(checkData.getContent()).isEqualTo("글 작성 내용 테스트");
         assertThat(checkData.getHit()).isEqualTo(0);

@@ -1,6 +1,8 @@
 package com.callbus.community.controller.dto.request;
 
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +11,9 @@ import lombok.Setter;
 @Getter
 public class ClientMemberRequestDto {
 
+    @ApiModelProperty(hidden = true)
     private Long memberId;
+    @ApiModelProperty(hidden = true)
     private String accountType;
 
     @Builder // Test용 생성자

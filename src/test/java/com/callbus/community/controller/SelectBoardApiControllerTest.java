@@ -40,6 +40,8 @@ public class SelectBoardApiControllerTest {
         String haveNotPermission = dc.read("$.body.items[1].targetMemberModificationPermission");
         String checkedLike = dc.read("$.body.items[1].targetMemberIsLike");
         String unCheckedLike = dc.read("$.body.items[0].targetMemberIsLike");
+        int likeCount = dc.read("$.body.items[1].likeCount");
+        int likeCount2 = dc.read("$.body.items[0].likeCount");
 
         assertThat(code).isEqualTo(1);
         assertThat(msg).isEqualTo("글 목록 보기 성공");
@@ -49,6 +51,8 @@ public class SelectBoardApiControllerTest {
         assertThat(haveNotPermission).isEqualTo("N");
         assertThat(checkedLike).isEqualTo("Y");
         assertThat(unCheckedLike).isEqualTo("N");
+        assertThat(likeCount).isEqualTo(1);
+        assertThat(likeCount2).isEqualTo(0);
     }
 
     private ResponseEntity<String> exchange(HttpHeaders headers) {

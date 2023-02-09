@@ -1,5 +1,6 @@
 package com.callbus.community.service.dto.request;
 
+import com.callbus.community.controller.dto.request.ClientMemberRequestDto;
 import com.callbus.community.controller.dto.request.ClientUpdateBoardRequestDto;
 import com.callbus.community.domain.Board;
 import lombok.Builder;
@@ -16,6 +17,8 @@ public class ServiceUpdateBoardReqeustDto {
 
     private String content;
 
+    private Long memberId;
+
     private LocalDateTime updateDate;
 
     public Board toEntity(){
@@ -25,17 +28,19 @@ public class ServiceUpdateBoardReqeustDto {
                .build();
     }
 
-    public ServiceUpdateBoardReqeustDto(Long boardId, ClientUpdateBoardRequestDto clientUpdateBoardRequestDto){
+    public ServiceUpdateBoardReqeustDto(Long boardId, ClientUpdateBoardRequestDto clientUpdateBoardRequestDto, ClientMemberRequestDto clientMemberRequestDto){
         this.boardId = boardId;
         this.title = clientUpdateBoardRequestDto.getTitle();
         this.content = clientUpdateBoardRequestDto.getContent();
+        this.memberId = clientMemberRequestDto.getMemberId();
     }
 
     @Builder
-    public ServiceUpdateBoardReqeustDto(Long boardId, String title, String content, LocalDateTime updateDate) {
+    public ServiceUpdateBoardReqeustDto(Long boardId, String title, String content, LocalDateTime updateDate, Long memberId) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.updateDate = updateDate;
+        this.memberId = memberId;
     }
 }

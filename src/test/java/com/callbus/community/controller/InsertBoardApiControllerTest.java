@@ -72,7 +72,7 @@ public class InsertBoardApiControllerTest {
 
 
     @Test
-    @DisplayName("헤더에 값이 없을 때 요청 글 저장 테스트")
+    @DisplayName("외부 사용자 글 저장 테스트")
     public void testSaveBoardWhenWithoutHeader() throws JsonProcessingException {
         ClientSaveBoardRequestDto clientSaveBoardRequestDto = ClientSaveBoardRequestDto.builder()
                 .title("글 저장 제목 테스트")
