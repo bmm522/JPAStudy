@@ -4,10 +4,7 @@ import com.callbus.community.domain.Like;
 import com.callbus.community.service.dto.request.ServiceGetBoardRequestDto;
 import com.callbus.community.service.dto.request.ServiceSaveBoardRequestDto;
 import com.callbus.community.service.dto.request.ServiceUpdateBoardReqeustDto;
-import com.callbus.community.service.dto.response.ServiceDeleteBoardResponseDto;
-import com.callbus.community.service.dto.response.ServiceGetBoardListResponseDto;
-import com.callbus.community.service.dto.response.ServiceSaveBoardResponseDto;
-import com.callbus.community.service.dto.response.ServiceUpdateBoardResponseDto;
+import com.callbus.community.service.dto.response.*;
 import com.callbus.community.domain.Board;
 import com.callbus.community.domain.Member;
 import com.callbus.community.domain.util.AccountType;
@@ -50,61 +47,22 @@ public class BoardServiceTest {
     @Mock
     private MemberRepository memberRepository;
 
-
-
-    @BeforeEach
-    public void insertData(){
-        Member member =  Member.builder()
-                .id(1L)
-                .nickname("김지인")
-                .accountType(AccountType.Realtor)
-                .status(Status.Y)
-                .build();
-        Board board = Board.builder()
-                .boardId(1L)
-                .title("첫번째 글 제목")
-                .content("첫번째 글 내용")
-                .status(Status.Y)
-                .build();
-
-        Board board2 = Board.builder()
-                .boardId(1L)
-                .title("두번째 글 제목")
-                .content("두번째 글 내용")
-                .status(Status.Y)
-                .build();
-
-        board.addMember(member);
-        board2.addMember(member);
-
-        boardRepository.save(board);
-        boardRepository.save(board2);
-
-    }
-
     @Test
     @Sql("classpath:db/tableInit.sql")
     @DisplayName("서비스단 글 작성 테스트")
     public void saveBoardTest(){
-        Optional<Member> member =  Optional.of(Member.builder()
-                .id(1L)
-                .nickname("김지인")
-                .accountType(AccountType.Realtor)
-                .status(Status.Y)
-                .build());
-
+        Member member = getBoardListForTest().get(0).getMember();
         ServiceSaveBoardRequestDto serviceSaveBoardRequestDto = ServiceSaveBoardRequestDto.builder()
                 .title("글 작성 서비스 단 테스트 제목")
                 .content("글 작성 서비스 단 테스트 내용")
                 .memberId(1L)
                 .accountType("Realtor")
                 .build();
-
         Board board = serviceSaveBoardRequestDto.toEntity();
-        board.addMember(member.get());
+        board.addMember(member);
 
 
-        when(memberRepository.findByMemberId(any())).thenReturn(member);
+        when(memberRepository.findByMemberId(any())).thenReturn(Optional.of(member));
         when(boardRepository.save(any())).thenReturn(board);
 
         ServiceSaveBoardResponseDto serviceSaveBoardResponseDto = boardService.saveBoard(serviceSaveBoardRequestDto);
@@ -117,30 +75,61 @@ public class BoardServiceTest {
 
     @Test
     @Sql("classpath:db/tableInit.sql")
+    @DisplayName("글 목록 보기 테스트")
+    public void getBoardListTest(){
+        List<Board> boards = getBoardListForTest();
+
+        ServiceGetBoardRequestDto serviceGetBoardRequestDto = ServiceGetBoardRequestDto.builder()
+                .memberId(1L)
+                .accountType(AccountType.Realtor)
+                .build();
+
+        when(boardRepository.findByStatus(Status.Y)).thenReturn(boards);
+
+        ServiceGetBoardListResponseDto serviceGetBoardListResponseDto = boardService.getBoardList(serviceGetBoardRequestDto);
+        List<ServiceGetBoardResponseDto> serviceGetBoardResponseDtos = serviceGetBoardListResponseDto.getItems();
+
+        assertThat(serviceGetBoardListResponseDto.getItems().size()).isEqualTo(2);
+        assertThat(serviceGetBoardResponseDtos.get(0).getContent()).isEqualTo("첫번째 글 내용");
+        assertThat(serviceGetBoardResponseDtos.get(0).getTargetMemberIsLike()).isEqualTo("Y");
+        assertThat(serviceGetBoardResponseDtos.get(1).getTargetMemberIsLike()).isEqualTo("N");
+        assertThat(serviceGetBoardResponseDtos.get(0).getTargetMemberModificationPermission()).isEqualTo("Y");
+        assertThat(serviceGetBoardResponseDtos.get(1).getTargetMemberModificationPermission()).isEqualTo("N");
+    }
+
+    @Test
+    @Sql("classpath:db/tableInit.sql")
+    @DisplayName("글 한건 보기 테스트")
+    public void getBoardDetailsTest(){
+        List<Board> boards = getBoardListForTest();
+
+        ServiceGetBoardRequestDto serviceGetBoardRequestDto = ServiceGetBoardRequestDto.builder()
+                .memberId(1L)
+                .boardId(1L)
+                .accountType(AccountType.Realtor)
+                .build();
+
+        when(boardRepository.findByBoardId(serviceGetBoardRequestDto.getBoardId())).thenReturn(Optional.of(boards.get(0)));
+
+        ServiceGetBoardResponseDto serviceGetBoardResponseDto = boardService.getBoardDetails(serviceGetBoardRequestDto);
+        
+        assertThat(serviceGetBoardResponseDto.getContent()).isEqualTo("첫번째 글 내용");
+        assertThat(serviceGetBoardResponseDto.getTargetMemberIsLike()).isEqualTo("Y");
+        assertThat(serviceGetBoardResponseDto.getTargetMemberModificationPermission()).isEqualTo("Y");
+        assertThat(serviceGetBoardResponseDto.getHit()).isEqualTo(1);
+    }
+
+    @Test
+    @Sql("classpath:db/tableInit.sql")
     @DisplayName("서비스단 글 수정 테스트")
     public void updateBoardTest(){
-
+        Board board = getBoardListForTest().get(0);
         ServiceUpdateBoardReqeustDto serviceUpdateBoardReqeustDto = ServiceUpdateBoardReqeustDto.builder()
                 .boardId(1L)
                 .title("글 수정 서비스 단 변경 후 제목")
                 .content("글 수정 서비스 단 변경 후 내용")
                 .build();
 
-
-        Optional<Member> member =  Optional.of(Member.builder()
-                .id(1L)
-                .nickname("김지인")
-                .accountType(AccountType.Realtor)
-                .status(Status.Y)
-                .build());
-
-        Board board = Board.builder()
-                .boardId(1L)
-                .title("글 수정 서비스 단 변경 전 제목")
-                .content("글 수정 서비스 단 변경 전 내용")
-                .build();
-
-        board.addMember(member.get());
 
         when(boardRepository.findByBoardId(serviceUpdateBoardReqeustDto.getBoardId())).thenReturn(Optional.of(board));
 
@@ -168,28 +157,7 @@ public class BoardServiceTest {
 
     }
 
-
-
-    @Test
-    @DisplayName("글 목록 보기 테스트")
-    public void getBoardListTest(){
-        List<Board> boards = getBoardListForTest();
-
-        ServiceGetBoardRequestDto serviceGetBoardRequestDto = ServiceGetBoardRequestDto.builder()
-                .memberId(1L)
-                .accountType(AccountType.Realtor)
-                .build();
-
-        when(boardRepository.findByStatus(Status.Y)).thenReturn(boards);
-
-        ServiceGetBoardListResponseDto serviceGetBoardListResponseDto = boardService.getBoardList(serviceGetBoardRequestDto);
-
-        assertThat(serviceGetBoardListResponseDto.getItems().size()).isEqualTo(2);
-
-    }
-
-
-
+    // 더미 객체 세팅
     private List<Board> getBoardListForTest(){
         List<Board> boards = new ArrayList<>();
 
