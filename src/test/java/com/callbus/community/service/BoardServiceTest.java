@@ -1,7 +1,9 @@
 package com.callbus.community.service;
 
 import com.callbus.community.domain.Like;
+import com.callbus.community.repository.LikeRepository;
 import com.callbus.community.service.dto.request.ServiceGetBoardRequestDto;
+import com.callbus.community.service.dto.request.ServiceLikeReqeustDto;
 import com.callbus.community.service.dto.request.ServiceSaveBoardRequestDto;
 import com.callbus.community.service.dto.request.ServiceUpdateBoardReqeustDto;
 import com.callbus.community.service.dto.response.*;
@@ -32,7 +34,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BoardServiceTest {
@@ -46,6 +48,9 @@ public class BoardServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+
+    @Mock
+    private LikeRepository likeRepository;
 
     @Test
     @Sql("classpath:db/tableInit.sql")
@@ -112,7 +117,7 @@ public class BoardServiceTest {
         when(boardRepository.findByBoardId(serviceGetBoardRequestDto.getBoardId())).thenReturn(Optional.of(boards.get(0)));
 
         ServiceGetBoardResponseDto serviceGetBoardResponseDto = boardService.getBoardDetails(serviceGetBoardRequestDto);
-        
+
         assertThat(serviceGetBoardResponseDto.getContent()).isEqualTo("첫번째 글 내용");
         assertThat(serviceGetBoardResponseDto.getTargetMemberIsLike()).isEqualTo("Y");
         assertThat(serviceGetBoardResponseDto.getTargetMemberModificationPermission()).isEqualTo("Y");
@@ -154,8 +159,56 @@ public class BoardServiceTest {
         assertThat(serviceDeleteBoardResponseDto.getBoardId()).isEqualTo(1);
         assertThat(board.getDeleteDate()).isNotNull();
         assertThat(board.getStatus()).isEqualTo(Status.N);
-
     }
+
+    @Test
+    @Sql("classpath:db/tableInit.sql")
+    @DisplayName(" 서비스단 글 좋아요 등록 테스트")
+    public void saveLikeTest(){
+        ServiceLikeReqeustDto serviceLikeReqeustDto = ServiceLikeReqeustDto.builder()
+                .boardId(2L)
+                .memberId(1L)
+                .build();
+
+        Board board = getBoardListForTest().get(1);
+        Like like = board.getLikes().get(0);
+
+        when(boardRepository.findByBoardId(any())).thenReturn(Optional.of(board));
+        when(memberRepository.findByMemberId(any())).thenReturn(Optional.of(board.getMember()));
+        when(likeRepository.findByBoardIdAndMemberId(any(),any())).thenReturn(Optional.empty());
+        when(likeRepository.save(any())).thenReturn(like);
+
+        ServiceLikeResponseDto serviceLikeResponseDto = boardService.saveLike(serviceLikeReqeustDto);
+
+        assertThat(serviceLikeResponseDto.getBoardId()).isEqualTo(2);
+        assertThat(serviceLikeResponseDto.getLikeCount()).isEqualTo(1);
+    }
+
+    @Test
+    @Sql("classpath:db/tableInit.sql")
+    @DisplayName("서비스단 글 좋아요 취소 테스트")
+    public void cancleLikeTest(){
+        ServiceLikeReqeustDto serviceLikeReqeustDto = ServiceLikeReqeustDto.builder()
+                .boardId(2L)
+                .memberId(3L)
+                .build();
+        Board board = getBoardListForTest().get(1);
+        Member member = board.getMember();
+        Like like = board.getLikes().get(0);
+
+        lenient().when(boardRepository.findByBoardId(any())).thenReturn(Optional.of(board));
+        lenient().when(memberRepository.findByMemberId(any())).thenReturn(Optional.of(member));
+        lenient().when(likeRepository.findByBoardIdAndMemberId(any(), any())).thenReturn(Optional.of(like));
+        ServiceLikeResponseDto serviceLikeResponseDtoTest = like.toDto(board);
+        like.addBoard(board);
+
+        ServiceLikeResponseDto serviceLikeResponseDto = boardService.cancleLike(serviceLikeReqeustDto);
+
+        assertThat(serviceLikeResponseDto.getBoardId()).isEqualTo(2);
+        assertThat(serviceLikeResponseDto.getLikeCount()-1).isEqualTo(0);
+    }
+
+
 
     // 더미 객체 세팅
     private List<Board> getBoardListForTest(){
@@ -214,7 +267,7 @@ public class BoardServiceTest {
                 .build();
 
         Board board2 = Board.builder()
-                .boardId(1L)
+                .boardId(2L)
                 .title("두번째 글 제목")
                 .content("두번째 글 내용")
                 .status(Status.Y)
