@@ -53,6 +53,7 @@ public class BoardServiceImpl implements BoardService {
         return ServiceGetBoardListResponseDto.builder().serviceGetBoardResponseDtos(boardDtos).build();
     }
 
+    // 글 한건 보기
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public ServiceGetBoardResponseDto getBoardDetails(ServiceGetBoardRequestDto serviceGetBoardRequestDto) {
@@ -133,7 +134,7 @@ public class BoardServiceImpl implements BoardService {
         return likeRepository.findByBoardIdAndMemberId(boardId, memberId);
     }
 
-    private boolean checkAlreadyExistLike(Long boardId, Long memberId){
+    public boolean checkAlreadyExistLike(Long boardId, Long memberId){
         return getOptionalLike(boardId, memberId).isPresent();
     }
 

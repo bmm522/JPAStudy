@@ -2,6 +2,7 @@ package com.callbus.community.service.dto.request;
 
 import com.callbus.community.controller.dto.request.ClientMemberRequestDto;
 import com.callbus.community.domain.util.AccountType;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -12,6 +13,14 @@ public class ServiceGetBoardRequestDto {
     private Long boardId;
 
     private AccountType accountType;
+
+
+    @Builder
+    public ServiceGetBoardRequestDto(Long memberId, Long boardId, AccountType accountType) {
+        this.memberId = memberId;
+        this.boardId = boardId;
+        this.accountType = accountType;
+    }
 
     public ServiceGetBoardRequestDto(ClientMemberRequestDto clientMemberRequestDto) {
         this.memberId = clientMemberRequestDto.getMemberId();
