@@ -2,6 +2,7 @@ package com.callbus.community.domain;
 
 import com.callbus.community.service.dto.response.ServiceLikeResponseDto;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,6 +33,12 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder // Test 용
+    public Like(Long likeId, Timestamp likeCreateDate, Board board) {
+        this.likeId = likeId;
+        this.likeCreateDate = likeCreateDate;
+    }
 
     public ServiceLikeResponseDto toDto(Board board){
         return ServiceLikeResponseDto.builder()

@@ -3,6 +3,7 @@ package com.callbus.community.service.dto.request;
 import com.callbus.community.controller.dto.request.ClientSaveBoardRequestDto;
 import com.callbus.community.controller.dto.request.ClientMemberRequestDto;
 import com.callbus.community.domain.Board;
+import com.callbus.community.domain.util.Status;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,6 +22,7 @@ public class ServiceSaveBoardRequestDto {
         return  Board.builder()
                 .title(title)
                 .content(content)
+                .status(Status.Y)
                 .build();
     }
     @Builder

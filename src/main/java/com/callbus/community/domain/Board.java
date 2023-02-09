@@ -54,13 +54,25 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board")
     private List<Reply> reply;
 
-    @Builder
-    public Board(Long boardId,String title, String content, Status status){
+//    @Builder
+//    public Board(Long boardId,String title, String content, Status status, LocalDateTime createDate){
+//        this.boardId = boardId;
+//        this.title = title;
+//        this.content = content;
+//        this.createDate = createDate;
+//        this.status = status;
+//    }
+
+    @Builder // getList Test 용 생성자
+    public Board(Long boardId,String title, String content, Status status, LocalDateTime createDate,List<Like> likes){
         this.boardId = boardId;
         this.title = title;
         this.content = content;
+        this.createDate = createDate;
         this.status = status;
+        this.likes = likes;
     }
+
 
     @Builder
     public Board(Long boardId, String title, String content, Integer hit,Status status) {
