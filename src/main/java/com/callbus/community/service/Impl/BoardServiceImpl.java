@@ -1,6 +1,7 @@
 package com.callbus.community.service.Impl;
 
 import com.callbus.community.domain.Like;
+import com.callbus.community.domain.util.AccountType;
 import com.callbus.community.repository.LikeRepository;
 import com.callbus.community.service.dto.request.*;
 import com.callbus.community.service.dto.response.*;
@@ -44,8 +45,9 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(rollbackFor = RuntimeException.class)
     public ServiceGetBoardListResponseDto getBoardList(ServiceGetBoardRequestDto serviceGetBoardRequestDto) {
         Long targetMemberId = serviceGetBoardRequestDto.getMemberId();
+        AccountType accountType = serviceGetBoardRequestDto.getAccountType();
         List<ServiceGetBoardResponseDto> boardDtos = boardRepository.findByStatus(Status.Y).stream()
-                .map((board) -> board.toGetDto(targetMemberId))
+                .map((board) -> board.toGetDto(targetMemberId, accountType))
                 .collect(Collectors.toList());
         return ServiceGetBoardListResponseDto.builder().serviceGetBoardResponseDtos(boardDtos).build();
     }
@@ -58,7 +60,7 @@ public class BoardServiceImpl implements BoardService {
         if (boardOp.isPresent()){
             Board board = boardOp.get();
             board.updateHit(board.getHit());
-            return board.toGetDto(serviceGetBoardRequestDto.getMemberId());
+            return board.toGetDto(serviceGetBoardRequestDto.getMemberId(), serviceGetBoardRequestDto.getAccountType());
         }
         throw new RuntimeException("없는 글 입니다.");
     }

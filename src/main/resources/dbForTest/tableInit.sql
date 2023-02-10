@@ -11,8 +11,3 @@ alter table Likes add constraint FKp23dekpinp8pcfvibcxexa7ni foreign key (board_
 alter table Likes add constraint FKt5jhhful6h3ixf4lmtwqt4e6j foreign key (member_id) references Member;
 alter table Reply add constraint FKf29xb044km9swon79clvq3noe foreign key (board_id) references Board;
 alter table Reply add constraint FKrssj15ssc80te3x9317wmpbcu foreign key (member_id) references Member;
-INSERT INTO Member(nickname, accountType, accountId,quit) VALUES ('김지인', 'Realtor', 'Realtor 1', 'Y');
-INSERT INTO Member(nickname, accountType, accountId,quit) VALUES ('강건강', 'Lessor', 'Lessor 2', 'Y');
-INSERT INTO Member(nickname, accountType, accountId,quit) VALUES ('남나눔', 'Lessee', 'Lessee 3', 'Y');
-INSERT INTO BOARD(title, content, createDate,status ,memberId) VALUES ('테스트 글 첫번째 내용', '테스트 글 첫번째 내용',now(),'Y','1');
-INSERT INTO BOARD(title, content, createDate,status ,memberId) VALUES ('테스트 글 두번째 내용', '테스트 글 두번째 내용', now(),'Y','2');

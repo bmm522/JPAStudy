@@ -9,6 +9,7 @@ import com.callbus.community.service.dto.request.*;
 import com.callbus.community.controller.dto.response.ClientCommonResponseDto;
 import com.callbus.community.service.BoardService;
 import com.callbus.community.service.dto.response.*;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@Api(tags = "Community Api")
 public class BoardApiController {
 
     private final BoardService boardService;

@@ -11,15 +11,12 @@ import com.callbus.community.domain.util.Status;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.MemberRepository;
 import com.callbus.community.service.Impl.BoardServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.*;
@@ -50,7 +47,7 @@ public class BoardServiceTest {
     private LikeRepository likeRepository;
 
     @Test
-    @Sql("classpath:db/tableInit.sql")
+    @Sql("classpath:dbForTest/tableInit.sql")
     @DisplayName("서비스단 글 작성 테스트")
     public void saveBoardTest(){
         Member member = getBoardListForTest().get(0).getMember();
@@ -76,7 +73,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    @Sql("classpath:db/tableInit.sql")
+    @Sql("classpath:dbForTest/tableInit.sql")
     @DisplayName("글 목록 보기 테스트")
     public void getBoardListTest(){
         List<Board> boards = getBoardListForTest();
@@ -100,7 +97,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    @Sql("classpath:db/tableInit.sql")
+    @Sql("classpath:dbForTest/tableInit.sql")
     @DisplayName("글 한건 보기 테스트")
     public void getBoardDetailsTest(){
         List<Board> boards = getBoardListForTest();
@@ -122,7 +119,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    @Sql("classpath:db/tableInit.sql")
+    @Sql("classpath:dbForTest/tableInit.sql")
     @DisplayName("서비스단 글 수정 테스트")
     public void updateBoardTest(){
         Board board = getBoardListForTest().get(0);
@@ -144,7 +141,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    @Sql("classpath:db/tableInit.sql")
+    @Sql("classpath:dbForTest/tableInit.sql")
     @DisplayName("서비스단 글 삭제 테스트")
     public void deleteBoardTest(){
         ServiceDeleteBoardRequestDto serviceDeleteBoardRequestDto = ServiceDeleteBoardRequestDto.builder()
@@ -163,7 +160,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    @Sql("classpath:db/tableInit.sql")
+    @Sql("classpath:dbForTest/tableInit.sql")
     @DisplayName(" 서비스단 글 좋아요 등록 테스트")
     public void saveLikeTest(){
         ServiceLikeReqeustDto serviceLikeReqeustDto = ServiceLikeReqeustDto.builder()
@@ -186,7 +183,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    @Sql("classpath:db/tableInit.sql")
+    @Sql("classpath:dbForTest/tableInit.sql")
     @DisplayName("서비스단 글 좋아요 취소 테스트")
     public void cancleLikeTest(){
         ServiceLikeReqeustDto serviceLikeReqeustDto = ServiceLikeReqeustDto.builder()

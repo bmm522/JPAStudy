@@ -97,7 +97,7 @@ public class Board extends BaseTimeEntity {
 
     }
 
-    public ServiceGetBoardResponseDto toGetDto(Long targetMemberId){
+    public ServiceGetBoardResponseDto toGetDto(Long targetMemberId, AccountType accountType){
         return ServiceGetBoardResponseDto.builder()
                 .boardId(boardId)
                 .title(title)
@@ -109,7 +109,7 @@ public class Board extends BaseTimeEntity {
                 .hit(hit)
                 .likeCount(likes.size())
                 .targetMemberModificationPermission((member.getMemberId().equals(targetMemberId))?"Y":"N")
-                .targetMemberIsLike((checkTargetMemberIsLike(likes,targetMemberId))?"Y":"N")
+                .targetMemberIsLike((accountType.equals(AccountType.externalUser))?"EX":(checkTargetMemberIsLike(likes,targetMemberId))?"Y":"N")
                 .build();
     }
 

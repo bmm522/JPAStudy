@@ -55,6 +55,20 @@ public class SelectBoardApiControllerTest {
         assertThat(likeCount2).isEqualTo(0);
     }
 
+    @Test
+    @DisplayName("외부 사용자 글 목록 불러오기 테스트")
+    public void getBoardListWhenExternalUserTest(){
+        headers.remove("Authentication");
+        ResponseEntity<String> response = exchange(headers);
+
+        DocumentContext dc = JsonPath.parse(response.getBody());
+        String checkedLike = dc.read("$.body.items[1].targetMemberIsLike");
+        String unCheckedLike = dc.read("$.body.items[0].targetMemberIsLike");
+
+        assertThat(checkedLike).isEqualTo("EX");
+        assertThat(unCheckedLike).isEqualTo("EX");
+    }
+
     private ResponseEntity<String> exchange(HttpHeaders headers) {
         return rt.exchange(
                 "/api/v1/community/boards",
