@@ -71,8 +71,8 @@ public class BoardServiceImpl implements BoardService {
     public ServiceUpdateBoardResponseDto updateBoard(ServiceUpdateBoardReqeustDto dto) {
         Board beforeModificationBoard = getOptionalBoard(dto.getBoardId()).get();
         if(beforeModificationBoard.getMember().getMemberId().equals(dto.getMemberId())) {
-            Board AfterModificationBoard = beforeModificationBoard.update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
-            return AfterModificationBoard.toUpdateDto();
+            Board afterModificationBoard = beforeModificationBoard.update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
+            return afterModificationBoard.toUpdateDto();
         }
         throw new RuntimeException("해당 글의 주인이 아닙니다.");
     }
