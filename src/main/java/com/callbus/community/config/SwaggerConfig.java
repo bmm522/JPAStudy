@@ -28,7 +28,7 @@ public class SwaggerConfig {
         List<Parameter> parameters = new ArrayList<>();
         parameterBuilder
                 .name("Authentication")
-                .description("회원일 경우 담기는 토큰입니다.  외부사용자 일 경우 비어주세요.")
+                .description("회원일 경우 담기는 토큰입니다.  외부사용자 일 경우 비워주세요.")
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
                 .required(false)

@@ -1,9 +1,6 @@
 package com.callbus.community.controller;
 
 import com.callbus.community.controller.dto.request.ClientLikeSaveRequestDto;
-import com.callbus.community.domain.Member;
-import com.callbus.community.domain.util.AccountType;
-import com.callbus.community.domain.util.Status;
 import com.callbus.community.repository.BoardRepository;
 import com.callbus.community.repository.LikeRepository;
 import com.callbus.community.repository.MemberRepository;
@@ -11,7 +8,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

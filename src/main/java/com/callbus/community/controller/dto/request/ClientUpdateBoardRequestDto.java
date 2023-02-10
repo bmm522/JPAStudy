@@ -1,5 +1,6 @@
 package com.callbus.community.controller.dto.request;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class ClientUpdateBoardRequestDto {
     @NotBlank
     private String content;
 
+    @ApiModelProperty(hidden = true)
     private LocalDateTime updateDate;
 
 
