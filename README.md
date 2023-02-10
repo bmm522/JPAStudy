@@ -2,7 +2,7 @@
 
 ## 테스트 방법 
  - {host}:8081/api/community 로 접속하시면 테스트가 가능합니다. 
- - {host}:8081/h2-console 로 접속하시면 DB를 조작하실 수 있습니다. 
+ - {host}:8081/h2-console 로 접속하시면 DB를 조작하실 수 있습니다. (username : callbuslab / 패스워드는 없습니다.)
  - 테스트를 위해 3개의 멤버 데이터와 게시글 데이터가 들어가 있습니다. <br>
 
  <img width="594" alt="image" src="https://user-images.githubusercontent.com/102157839/218021217-bc935714-fa2d-4900-a331-23d62c707c7e.png">
