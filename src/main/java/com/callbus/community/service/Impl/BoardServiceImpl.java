@@ -3,6 +3,7 @@ package com.callbus.community.service.Impl;
 import com.callbus.community.domain.Like;
 import com.callbus.community.domain.util.AccountType;
 import com.callbus.community.repository.LikeRepository;
+import com.callbus.community.service.dto.ServiceDto;
 import com.callbus.community.service.dto.request.*;
 import com.callbus.community.service.dto.response.*;
 import com.callbus.community.domain.Board;
@@ -68,9 +69,9 @@ public class BoardServiceImpl implements BoardService {
     // 글 수정
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceUpdateBoardResponseDto updateBoard(ServiceUpdateBoardReqeustDto dto) {
+    public ServiceUpdateBoardResponseDto updateBoard(ServiceDto dto) {
         Board beforeModificationBoard = getOptionalBoard(dto.getBoardId()).get();
-        if(beforeModificationBoard.getMember().getMemberId().equals(dto.getMemberId())) {
+        if(beforeModificationBoard.checkWriter(dto)) {
             Board afterModificationBoard = beforeModificationBoard.update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
             return afterModificationBoard.toUpdateDto();
         }

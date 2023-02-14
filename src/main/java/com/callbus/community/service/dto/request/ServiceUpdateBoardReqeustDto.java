@@ -3,6 +3,7 @@ package com.callbus.community.service.dto.request;
 import com.callbus.community.controller.dto.request.ClientMemberRequestDto;
 import com.callbus.community.controller.dto.request.ClientUpdateBoardRequestDto;
 import com.callbus.community.domain.Board;
+import com.callbus.community.service.dto.response.ServiceUpdateBoardResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -43,4 +44,7 @@ public class ServiceUpdateBoardReqeustDto {
         this.updateDate = updateDate;
         this.memberId = memberId;
     }
+
+
+
 }
