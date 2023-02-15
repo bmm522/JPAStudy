@@ -2,6 +2,7 @@ package com.callbus.community.domain;
 
 import com.callbus.community.common.DateFormatter;
 import com.callbus.community.domain.util.AccountType;
+import com.callbus.community.service.dto.ServiceRequestDto;
 import com.callbus.community.service.dto.response.ServiceDeleteBoardResponseDto;
 import com.callbus.community.service.dto.response.ServiceGetBoardResponseDto;
 import com.callbus.community.service.dto.response.ServiceSaveBoardResponseDto;
@@ -147,6 +148,15 @@ public class Board extends BaseTimeEntity {
                 .build();
     }
 
+    private String getAccountType(AccountType accountType){
+        switch (accountType){
+            case Realtor:return "공인중개사";
+            case Lessor:return "임대인";
+            case Lessee:return "임차인";
+            default: return null;
+        }
+    }
+
     public Board update(String title, String content, LocalDateTime updateDate){
         this.title = title;
         this.content = content;
@@ -177,14 +187,12 @@ public class Board extends BaseTimeEntity {
         }
     }
 
-    private String getAccountType(AccountType accountType){
-        switch (accountType){
-            case Realtor:return "공인중개사";
-            case Lessor:return "임대인";
-            case Lessee:return "임차인";
-            default: return null;
-        }
+    public boolean checkWriter(ServiceRequestDto dto){
+        return member.getMemberId().equals(dto.getMemberId());
     }
+
+
+
 
 
 
