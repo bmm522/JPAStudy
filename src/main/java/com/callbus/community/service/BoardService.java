@@ -1,6 +1,7 @@
 package com.callbus.community.service;
 
 import com.callbus.community.domain.Board;
+import com.callbus.community.service.dto.ServiceRequestDto;
 import com.callbus.community.service.dto.request.*;
 import com.callbus.community.service.dto.response.*;
 
@@ -8,17 +9,17 @@ public interface BoardService {
 
 
 
-    public ServiceSaveBoardResponseDto saveBoard(ServiceSaveBoardRequestDto serviceSaveBoardRequestDto);
+    public ServiceSaveBoardResponseDto saveBoard(ServiceRequestDto dto);
 
-    public ServiceUpdateBoardResponseDto updateBoard(ServiceUpdateBoardReqeustDto serviceUpdateBoardReqeustDto);
+    public ServiceUpdateBoardResponseDto updateBoard(ServiceRequestDto dto);
 
-    public ServiceDeleteBoardResponseDto deleteBoard(ServiceDeleteBoardRequestDto serviceDeleteBoardRequestDto);
+    public ServiceDeleteBoardResponseDto deleteBoard(ServiceRequestDto dto);
 
-    public ServiceLikeResponseDto saveLike(ServiceLikeReqeustDto serviceLikeReqeustDto);
+    public ServiceLikeResponseDto saveLike(ServiceRequestDto dto);
 
-    public ServiceLikeResponseDto cancleLike(ServiceLikeReqeustDto serviceLikeReqeustDto);
+    public ServiceLikeResponseDto cancleLike(ServiceRequestDto dto);
 
-    public ServiceGetBoardListResponseDto getBoardList(ServiceGetBoardRequestDto serviceGetBoardRequestDto);
+    public ServiceGetBoardListResponseDto getBoardList(ServiceRequestDto dto);
 
-    public ServiceGetBoardResponseDto getBoardDetails(ServiceGetBoardRequestDto serviceGetBoardRequestDto);
+    public ServiceGetBoardResponseDto getBoardDetails(ServiceRequestDto dto);
 }

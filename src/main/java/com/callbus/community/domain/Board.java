@@ -1,9 +1,8 @@
 package com.callbus.community.domain;
 
 import com.callbus.community.common.DateFormatter;
-import com.callbus.community.controller.dto.request.ClientUpdateBoardRequestDto;
 import com.callbus.community.domain.util.AccountType;
-import com.callbus.community.service.dto.ServiceDto;
+import com.callbus.community.service.dto.ServiceRequestDto;
 import com.callbus.community.service.dto.response.ServiceDeleteBoardResponseDto;
 import com.callbus.community.service.dto.response.ServiceGetBoardResponseDto;
 import com.callbus.community.service.dto.response.ServiceSaveBoardResponseDto;
@@ -188,7 +187,7 @@ public class Board extends BaseTimeEntity {
         }
     }
 
-    public boolean checkWriter(ServiceDto dto){
+    public boolean checkWriter(ServiceRequestDto dto){
         return member.getMemberId().equals(dto.getMemberId());
     }
 
