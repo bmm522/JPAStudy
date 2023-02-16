@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class CallbusLabApplication {
+public class PersonalApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CallbusLabApplication.class, args);
+		SpringApplication.run(PersonalApplication.class, args);
 	}
 
 }
