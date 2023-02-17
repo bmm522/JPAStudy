@@ -2,8 +2,8 @@ package com.personal.community.service.dto.request;
 
 import com.personal.community.controller.dto.request.ClientSaveBoardRequestDto;
 import com.personal.community.controller.dto.request.ClientMemberRequestDto;
-import com.personal.community.domain.Board;
-import com.personal.community.domain.util.Status;
+import com.personal.community.repository.entity.Board;
+import com.personal.community.repository.entity.util.Status;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.personal.community.domain.util;
+package com.personal.community.repository.entity.util;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

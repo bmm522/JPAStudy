@@ -1,7 +1,7 @@
 package com.personal.community.service.dto.request;
 
 import com.personal.community.controller.dto.request.ClientMemberRequestDto;
-import com.personal.community.domain.util.AccountType;
+import com.personal.community.repository.entity.util.AccountType;
 import lombok.Builder;
 import lombok.Getter;
 

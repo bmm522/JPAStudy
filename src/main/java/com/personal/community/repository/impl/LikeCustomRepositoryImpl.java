@@ -1,6 +1,6 @@
 package com.personal.community.repository.impl;
 
-import com.personal.community.domain.Like;
+import com.personal.community.repository.entity.Like;
 import com.personal.community.repository.LikeCustomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

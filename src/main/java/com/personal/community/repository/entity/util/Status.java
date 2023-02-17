@@ -1,4 +1,4 @@
-package com.personal.community.domain.util;
+package com.personal.community.repository.entity.util;
 
 public enum Status {
     Y("Y"),N("N");

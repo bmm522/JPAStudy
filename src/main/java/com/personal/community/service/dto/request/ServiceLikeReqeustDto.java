@@ -2,7 +2,7 @@ package com.personal.community.service.dto.request;
 
 import com.personal.community.controller.dto.request.ClientLikeSaveRequestDto;
 import com.personal.community.controller.dto.request.ClientMemberRequestDto;
-import com.personal.community.domain.Like;
+import com.personal.community.repository.entity.Like;
 import lombok.Builder;
 import lombok.Getter;
 

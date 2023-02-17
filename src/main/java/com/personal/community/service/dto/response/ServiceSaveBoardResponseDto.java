@@ -27,5 +27,7 @@ public class ServiceSaveBoardResponseDto {
         this.memberId = memberId;
         this.createDate = createDate;
     }
+
+
 }
 

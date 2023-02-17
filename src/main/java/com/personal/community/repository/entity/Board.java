@@ -1,13 +1,13 @@
-package com.personal.community.domain;
+package com.personal.community.repository.entity;
 
 import com.personal.community.common.DateFormatter;
-import com.personal.community.domain.util.AccountType;
+import com.personal.community.repository.entity.util.AccountType;
+import com.personal.community.service.dto.request.ServiceUpdateBoardReqeustDto;
 import com.personal.community.service.dto.response.ServiceDeleteBoardResponseDto;
 import com.personal.community.service.dto.response.ServiceGetBoardResponseDto;
-import com.personal.community.service.dto.response.ServiceSaveBoardResponseDto;
 import com.personal.community.service.dto.response.ServiceUpdateBoardResponseDto;
-import com.personal.community.domain.util.BaseTimeEntity;
-import com.personal.community.domain.util.Status;
+import com.personal.community.repository.entity.util.BaseTimeEntity;
+import com.personal.community.repository.entity.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -54,15 +54,6 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board")
     private List<Reply> reply;
 
-//    @Builder
-//    public Board(Long boardId,String title, String content, Status status, LocalDateTime createDate){
-//        this.boardId = boardId;
-//        this.title = title;
-//        this.content = content;
-//        this.createDate = createDate;
-//        this.status = status;
-//    }
-
     @Builder // getList Test 용 생성자
     public Board(Long boardId,String title, String content, Status status, LocalDateTime createDate,List<Like> likes){
         this.boardId = boardId;
@@ -83,18 +74,6 @@ public class Board extends BaseTimeEntity {
         this.status = status;
     }
 
-
-    public ServiceSaveBoardResponseDto toSaveDto(){
-        return ServiceSaveBoardResponseDto.builder()
-                .boardId(boardId)
-                .title(title)
-                .content(content)
-                .nickname(this.getMember().getNickname())
-                .memberId(this.getMember().getMemberId())
-                .createDate(createDate)
-                .build();
-
-    }
 
     public ServiceGetBoardResponseDto toGetDto(Long targetMemberId, AccountType accountType){
         return ServiceGetBoardResponseDto.builder()
@@ -185,11 +164,16 @@ public class Board extends BaseTimeEntity {
         }
     }
 
-    public boolean checkWriter(ServiceUpdateRequestDto dto){
+    public boolean checkWriter(ServiceUpdateBoardReqeustDto dto){
         return member.getMemberId().equals(dto.getMemberId());
     }
 
-
+    public long getMemberId(){
+        return member.getMemberId();
+    }
+    public String getMemberNickname(){
+        return member.getNickname();
+    }
 
 
 

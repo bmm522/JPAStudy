@@ -1,9 +1,9 @@
 package com.personal.community.controller;
 
 import com.personal.community.controller.dto.request.ClientSaveBoardRequestDto;
-import com.personal.community.domain.Member;
-import com.personal.community.domain.util.AccountType;
-import com.personal.community.domain.util.Status;
+import com.personal.community.repository.entity.Member;
+import com.personal.community.repository.entity.util.AccountType;
+import com.personal.community.repository.entity.util.Status;
 import com.personal.community.repository.BoardRepository;
 import com.personal.community.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;

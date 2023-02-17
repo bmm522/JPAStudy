@@ -1,7 +1,7 @@
-package com.personal.community.domain;
+package com.personal.community.repository.entity;
 
-import com.personal.community.domain.util.AccountType;
-import com.personal.community.domain.util.Status;
+import com.personal.community.repository.entity.util.AccountType;
+import com.personal.community.repository.entity.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

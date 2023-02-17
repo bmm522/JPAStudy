@@ -1,4 +1,4 @@
-package com.personal.community.domain.util;
+package com.personal.community.repository.entity.util;
 
 public enum AccountType {
     Lessor("Lessor"), Realtor("Realtor"), Lessee("Lessee"), externalUser("externalUser");

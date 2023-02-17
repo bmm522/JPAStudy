@@ -2,14 +2,14 @@ package com.personal.community.service.dto.request;
 
 import com.personal.community.controller.dto.request.ClientMemberRequestDto;
 import com.personal.community.controller.dto.request.ClientUpdateBoardRequestDto;
-import com.personal.community.domain.Board;
+import com.personal.community.repository.entity.Board;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class ServiceUpdateBoardReqeustDto implements ServiceUpdateRequestDto, ServiceRequestDto {
+public class ServiceUpdateBoardReqeustDto {
 
     private Long boardId;
 

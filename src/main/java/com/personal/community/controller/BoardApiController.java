@@ -5,10 +5,8 @@ import com.personal.community.controller.dto.request.ClientUpdateBoardRequestDto
 import com.personal.community.controller.dto.request.ClientLikeSaveRequestDto;
 import com.personal.community.controller.dto.request.ClientMemberRequestDto;
 import com.personal.community.controller.dto.response.Code;
-import com.callbus.community.service.dto.request.*;
 import com.personal.community.controller.dto.response.ClientCommonResponseDto;
 import com.personal.community.service.BoardService;
-import com.callbus.community.service.dto.response.*;
 import com.personal.community.service.dto.request.*;
 import com.personal.community.service.dto.response.*;
 import io.swagger.annotations.Api;

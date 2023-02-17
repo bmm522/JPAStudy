@@ -1,9 +1,9 @@
 package com.personal.community.repository;
 
-import com.personal.community.domain.Board;
-import com.personal.community.domain.Member;
-import com.personal.community.domain.util.AccountType;
-import com.personal.community.domain.util.Status;
+import com.personal.community.repository.entity.Board;
+import com.personal.community.repository.entity.Member;
+import com.personal.community.repository.entity.util.AccountType;
+import com.personal.community.repository.entity.util.Status;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

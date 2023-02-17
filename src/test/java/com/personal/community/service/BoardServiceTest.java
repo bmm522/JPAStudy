@@ -1,13 +1,11 @@
 package com.personal.community.service;
 
-import com.personal.community.domain.Like;
+import com.personal.community.repository.entity.Like;
 import com.personal.community.repository.LikeRepository;
-import com.callbus.community.service.dto.request.*;
-import com.callbus.community.service.dto.response.*;
-import com.personal.community.domain.Board;
-import com.personal.community.domain.Member;
-import com.personal.community.domain.util.AccountType;
-import com.personal.community.domain.util.Status;
+import com.personal.community.repository.entity.Board;
+import com.personal.community.repository.entity.Member;
+import com.personal.community.repository.entity.util.AccountType;
+import com.personal.community.repository.entity.util.Status;
 import com.personal.community.repository.BoardRepository;
 import com.personal.community.repository.MemberRepository;
 import com.personal.community.service.Impl.BoardServiceImpl;

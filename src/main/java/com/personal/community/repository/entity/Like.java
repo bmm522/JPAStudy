@@ -1,4 +1,4 @@
-package com.personal.community.domain;
+package com.personal.community.repository.entity;
 
 import com.personal.community.service.dto.response.ServiceLikeResponseDto;
 import lombok.AllArgsConstructor;

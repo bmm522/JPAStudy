@@ -1,11 +1,11 @@
 package com.personal.community.service.dto.request;
 
-import com.personal.community.domain.Board;
-import com.personal.community.domain.util.Status;
+import com.personal.community.repository.entity.Board;
+import com.personal.community.repository.entity.util.Status;
 import lombok.Getter;
 
 @Getter
-public class ServiceSaveRequestDto implements ServiceRequestDto, com.personal.community.service.dto.request.ServiceSaveRequestDto {
+public class ServiceSaveRequestDto  {
 
 
     private String title;
@@ -17,7 +17,6 @@ public class ServiceSaveRequestDto implements ServiceRequestDto, com.personal.co
     private String accountType;
 
 
-    @Override
     public Board toEntity() {
         return  Board.builder()
                 .title(title)

@@ -1,7 +1,7 @@
 package com.personal.community.repository;
 
-import com.personal.community.domain.Board;
-import com.personal.community.domain.util.Status;
+import com.personal.community.repository.entity.Board;
+import com.personal.community.repository.entity.util.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

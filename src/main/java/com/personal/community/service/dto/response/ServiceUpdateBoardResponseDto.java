@@ -31,4 +31,6 @@ public class ServiceUpdateBoardResponseDto {
         this.updateDate = updateDate;
 
     }
+
+
 }
