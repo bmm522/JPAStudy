@@ -2,7 +2,6 @@ package com.personal.community.domain;
 
 import com.personal.community.common.DateFormatter;
 import com.personal.community.domain.util.AccountType;
-import com.personal.community.service.dto.ServiceRequestDto;
 import com.personal.community.service.dto.response.ServiceDeleteBoardResponseDto;
 import com.personal.community.service.dto.response.ServiceGetBoardResponseDto;
 import com.personal.community.service.dto.response.ServiceSaveBoardResponseDto;
@@ -81,7 +80,6 @@ public class Board extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.hit = hit;
-        this.deleteDate = null;
         this.status = status;
     }
 
@@ -187,7 +185,7 @@ public class Board extends BaseTimeEntity {
         }
     }
 
-    public boolean checkWriter(ServiceRequestDto dto){
+    public boolean checkWriter(ServiceUpdateRequestDto dto){
         return member.getMemberId().equals(dto.getMemberId());
     }
 

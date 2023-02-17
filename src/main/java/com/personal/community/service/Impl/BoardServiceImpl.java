@@ -3,7 +3,9 @@ package com.personal.community.service.Impl;
 import com.personal.community.domain.Like;
 import com.personal.community.domain.util.AccountType;
 import com.personal.community.repository.LikeRepository;
-import com.personal.community.service.dto.ServiceRequestDto;
+import com.personal.community.service.dto.request.ServiceDeleteBoardRequestDto;
+import com.personal.community.service.dto.request.ServiceGetBoardRequestDto;
+import com.personal.community.service.dto.request.ServiceSaveBoardRequestDto;
 import com.callbus.community.service.dto.request.*;
 import com.callbus.community.service.dto.response.*;
 import com.personal.community.domain.Board;
@@ -37,7 +39,7 @@ public class BoardServiceImpl implements BoardService {
     // 글 저장
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceSaveBoardResponseDto saveBoard(ServiceRequestDto dto){
+    public ServiceSaveBoardResponseDto saveBoard(ServiceSaveBoardRequestDto dto){
         Board board =dto.toEntity();
         board.addMember(getOptionalMember(dto.getMemberId()).get());
         return boardRepository.save(board).toSaveDto();
@@ -46,9 +48,9 @@ public class BoardServiceImpl implements BoardService {
     // 글 목록 보기
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceGetBoardListResponseDto getBoardList(ServiceRequestDto dto) {
-        Long targetMemberId = serviceGetBoardRequestDto.getMemberId();
-        AccountType accountType = serviceGetBoardRequestDto.getAccountType();
+    public ServiceGetBoardListResponseDto getBoardList(ServiceGetBoardRequestDto dto) {
+        Long targetMemberId = dto.getMemberId();
+        AccountType accountType = dto.getAccountType();
         List<ServiceGetBoardResponseDto> boardDtos = boardRepository.findByStatus(Status.Y).stream()
                 .map((board) -> board.toGetDto(targetMemberId, accountType))
                 .collect(Collectors.toList());
@@ -58,12 +60,12 @@ public class BoardServiceImpl implements BoardService {
     // 글 한건 보기
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceGetBoardResponseDto getBoardDetails(ServiceRequestDto dto) {
-        Optional<Board> boardOp = boardRepository.findByBoardId(serviceGetBoardRequestDto.getBoardId());
+    public ServiceGetBoardResponseDto getBoardDetails(ServiceGetBoardRequestDto dto) {
+        Optional<Board> boardOp = boardRepository.findByBoardId(dto.getBoardId());
         if (boardOp.isPresent()){
             Board board = boardOp.get();
             board.updateHit(board.getHit());
-            return board.toGetDto(serviceGetBoardRequestDto.getMemberId(), serviceGetBoardRequestDto.getAccountType());
+            return board.toGetDto(dto.getMemberId(), dto.getAccountType());
         }
         throw new RuntimeException("없는 글 입니다.");
     }
@@ -71,7 +73,7 @@ public class BoardServiceImpl implements BoardService {
     // 글 수정
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceUpdateBoardResponseDto updateBoard(ServiceRequestDto dto) {
+    public ServiceUpdateBoardResponseDto updateBoard(ServiceUpdateRequestDto dto) {
         Board beforeModificationBoard = getOptionalBoard(dto.getBoardId()).get();
         if(beforeModificationBoard.checkWriter(dto)) {
             Board afterModificationBoard = beforeModificationBoard.update(dto.getTitle(), dto.getContent(), LocalDateTime.now());
@@ -83,7 +85,7 @@ public class BoardServiceImpl implements BoardService {
     // 글 삭제
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceDeleteBoardResponseDto deleteBoard(ServiceRequestDto dto) {
+    public ServiceDeleteBoardResponseDto deleteBoard(ServiceDeleteBoardRequestDto dto) {
         Board board = getOptionalBoard(dto.getBoardId()).get();
         if(board.getMember().getMemberId().equals(dto.getMemberId())) {
             return board.delete(LocalDateTime.now(), Status.N).toDeleteDto();
@@ -114,7 +116,7 @@ public class BoardServiceImpl implements BoardService {
     // 좋아요 취소
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ServiceLikeResponseDto cancleLike(ServiceRequestDto dto) {
+    public ServiceLikeResponseDto cancleLike(ServiceLikeReqeustDto dto) {
         Optional<Like> likeOp = getOptionalLike(dto.getBoardId(), dto.getMemberId());
 
         if(likeOp.isPresent()){

@@ -9,7 +9,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ServiceUpdateBoardReqeustDto {
+public class ServiceUpdateBoardReqeustDto implements ServiceUpdateRequestDto, ServiceRequestDto {
 
     private Long boardId;
 

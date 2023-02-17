@@ -28,3 +28,4 @@ public class ServiceSaveBoardResponseDto {
         this.createDate = createDate;
     }
 }
+
