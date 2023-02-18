@@ -8,6 +8,7 @@ import com.personal.community.controller.dto.response.Code;
 import com.personal.community.controller.dto.response.ClientCommonResponseDto;
 import com.personal.community.service.BoardService;
 import com.personal.community.service.dto.request.*;
+import com.personal.community.service.dto.request.mapper.ControllerDtoToServiceDtoMapper;
 import com.personal.community.service.dto.response.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,13 +27,14 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
+    private final ControllerDtoToServiceDtoMapper mapper = ControllerDtoToServiceDtoMapper.getInstance();
+
     // 글 저장
     @ApiOperation(value="게시글 저장 ", notes = "게시글을 저장합니다.", response = ClientCommonResponseDto.class)
     @PostMapping("/api/v1/community/board")
     public ResponseEntity<?> saveBoard(@RequestBody @Valid ClientSaveBoardRequestDto clientSaveBoardRequestDto, BindingResult bindingResult , @RequestAttribute("memberReqDto") ClientMemberRequestDto clientMemberRequestDto){
         checkMemberAuthority(clientMemberRequestDto);
-        ServiceSaveBoardRequestDto serviceSaveBoardRequestDto = new ServiceSaveBoardRequestDto(clientSaveBoardRequestDto, clientMemberRequestDto);
-        ServiceSaveBoardResponseDto serviceSaveBoardResponseDto = boardService.saveBoard(serviceSaveBoardRequestDto);
+        ServiceSaveBoardResponseDto serviceSaveBoardResponseDto = boardService.saveBoard(mapper.toServiceDtoWhenSave(clientSaveBoardRequestDto, clientMemberRequestDto));
         return new ResponseEntity<>(ClientCommonResponseDto.builder().code(Code.SUCCESS.getCode()).msg("글 저장 성공").body(serviceSaveBoardResponseDto).build(), HttpStatus.CREATED);
     }
 

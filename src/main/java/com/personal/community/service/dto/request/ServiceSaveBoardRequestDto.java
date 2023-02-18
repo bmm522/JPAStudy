@@ -18,13 +18,7 @@ public class ServiceSaveBoardRequestDto {
 
     private String accountType;
 
-    public Board toEntity(){
-        return  Board.builder()
-                .title(title)
-                .content(content)
-                .status(Status.Y)
-                .build();
-    }
+
     @Builder
     public ServiceSaveBoardRequestDto(String title, String content, Long memberId, String accountType){
         this.title = title;

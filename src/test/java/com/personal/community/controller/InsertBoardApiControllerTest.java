@@ -99,13 +99,14 @@ public class InsertBoardApiControllerTest {
     @Test
     @DisplayName("잘못된 요청 글 저장 테스트")
     public void testSaveBoardWhenInvalid() throws JsonProcessingException {
+        System.out.println("000000000000000000000000");
         ClientSaveBoardRequestDto clientSaveBoardRequestDto = ClientSaveBoardRequestDto.builder()
                 .title("글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트" +
                         "글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트" +
                         "글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트글 저장 제목 테스트")
                 .content("글 저장 내용 테스트")
                 .build();
-
+        System.out.println("11111111111111111111111111111");
         headers.set("Authentication", " Realtor 1");
 
         String body = objectMapper.writeValueAsString(clientSaveBoardRequestDto);
@@ -116,7 +117,7 @@ public class InsertBoardApiControllerTest {
         Integer code = dc.read("$.code");
         String msg = dc.read("$.msg");
         String resultBody = dc.read("$.body");
-
+        System.out.println("2222222222222222222222222222");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(code).isEqualTo(-1);

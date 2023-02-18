@@ -14,7 +14,7 @@ import java.util.Map;
 @Component
 public class ValidChecker {
 
-    @Around("execution(* com.callbus.community.controller..*.*(..))")
+    @Around("execution(* com.personal.community.controller..*.*(..))")
     public Object advice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         Object[] args = proceedingJoinPoint.getArgs();

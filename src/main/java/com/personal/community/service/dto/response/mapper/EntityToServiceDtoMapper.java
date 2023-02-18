@@ -4,7 +4,7 @@ import com.personal.community.repository.entity.Board;
 import com.personal.community.service.dto.response.ServiceSaveBoardResponseDto;
 
 public class EntityToServiceDtoMapper {
-    private static EntityToServiceDtoMapper entityToServiceDtoMapper = new EntityToServiceDtoMapper();
+    private static final EntityToServiceDtoMapper entityToServiceDtoMapper = new EntityToServiceDtoMapper();
 
     private EntityToServiceDtoMapper(){}
 

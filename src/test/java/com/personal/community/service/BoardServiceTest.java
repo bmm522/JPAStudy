@@ -4,6 +4,7 @@ import com.personal.community.repository.entity.Like;
 import com.personal.community.repository.LikeRepository;
 import com.personal.community.repository.entity.Board;
 import com.personal.community.repository.entity.Member;
+import com.personal.community.repository.entity.mapper.ServiceDtoToEntityMapper;
 import com.personal.community.repository.entity.util.AccountType;
 import com.personal.community.repository.entity.util.Status;
 import com.personal.community.repository.BoardRepository;
@@ -33,6 +34,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class BoardServiceTest {
 
+    private final ServiceDtoToEntityMapper serviceDtoToEntityMapper = ServiceDtoToEntityMapper.getInstance();
+
     @InjectMocks
     private BoardServiceImpl boardService;
 
@@ -57,7 +60,8 @@ public class BoardServiceTest {
                 .memberId(1L)
                 .accountType("Realtor")
                 .build();
-        Board board = serviceSaveBoardRequestDto.toEntity();
+
+        Board board = serviceDtoToEntityMapper.toEntityWhenSave(serviceSaveBoardRequestDto);
         board.addMember(member);
 
 

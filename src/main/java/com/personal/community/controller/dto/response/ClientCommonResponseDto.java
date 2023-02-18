@@ -8,7 +8,6 @@ public class ClientCommonResponseDto<T> {
 
     private Integer code; // 1. SUCCESS, -1 FAIL
     private String msg;
-
     private T body;
 
     @Builder
